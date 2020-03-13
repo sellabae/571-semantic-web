@@ -1,0 +1,3 @@
+<Yashua>
+
+- used the apache-jena-libs library instead of the core library since the api i needed was not in the core library 
