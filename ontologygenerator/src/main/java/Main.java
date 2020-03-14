@@ -2,6 +2,7 @@ import org.apache.jena.rdf.model.*;
 import org.apache.jena.vocabulary.*;
 
 public class Main {
+    
     public static void main(String[] args) {
 
         //structure of the csv file ROW = SUBJECT   COLUMN NAME = CLASSES (for now )  CELL = object (literal or resource)
