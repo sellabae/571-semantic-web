@@ -1,5 +1,7 @@
 
 import java.io.*;
+import java.nio.file.Paths;
+
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.vocabulary.*;
 
@@ -7,64 +9,53 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        // // structure of the csv file ROW = SUBJECT COLUMN NAME = CLASSES (for now )
-        // CELL
-        // // = object (literal or resource)
-        // // Model model = basicStructure();
-
-        // String absolutePath = Paths.get(".").toAbsolutePath().normalize().toString();
-        // String pathToLunar = "\\ontologygenerator\\dataset\\lunar.csv";
-        // String pathToSolar = "\\ontologygenerator\\dataset\\solar.csv";
-        // String csvLunarFilepath = absolutePath + pathToLunar;
-        // // System.out.println(lunarFile.getAbsolutePath());
-
-        // BufferedReader fileReader = new BufferedReader(new
-        // FileReader(csvLunarFilepath));
-        // String csv_row = fileReader.readLine();
-        // String[] column_names = csv_row.split(",");
-
-        // while (csv_row != null) {
-
-        // String[] csv_row_cells = csv_row.split(",");
-        // if (csv_row_cells.length > 0) {
-        // System.out.println(csv_row_cells[0]);
-        // }
-
-        // csv_row = fileReader.readLine();
-
-        // }
-
-        // fileReader.close();
-
-        // // reading the column names
-        // for (int i = 0; i < column_names.length; i++) {
-        // System.out.print(column_names[i] + ", ");
-        // }
-
-        // // System.out.println("Lunar File Exists...Now Reading its content");
-
-        // // opening the csv file
-
         // Writing RDF
         Model model = rdfModelStructure();
         model.write(System.out);
 
-        rdfModelStructure();
 
     } // end of main
+
+    public static void openCsvFile() throws IOException {
+        // opening the csv file
+
+        String absolutePath = Paths.get(".").toAbsolutePath().normalize().toString();
+        String pathToLunar = "\\ontologygenerator\\dataset\\lunar.csv";
+        String csvLunarFilepath = absolutePath + pathToLunar;
+        // System.out.println(lunarFile.getAbsolutePath());
+
+        BufferedReader fileReader = new BufferedReader(new FileReader(csvLunarFilepath));
+        String csv_row = fileReader.readLine();
+        String[] column_names = csv_row.split(",");
+
+        while (csv_row != null) {
+            String[] csv_row_cells = csv_row.split(",");
+            if (csv_row_cells.length > 0) {
+                System.out.println(csv_row_cells[0]);
+            }
+            csv_row = fileReader.readLine();
+        }
+
+        fileReader.close();
+
+        // reading the column names
+        for (int i = 0; i < column_names.length; i++) {
+            System.out.print(column_names[i] + ", ");
+        }
+
+        // System.out.println("Lunar File Exists...Now Reading its content");
+    }
 
     public static Model rdfModelStructure() {
 
         // Create an empty model for the CSV File
         Model model = ModelFactory.createDefaultModel();
 
-
-        //create main node
+        // create main node
         Resource mainNode = model.createResource();
 
         mainNode.addProperty(RDF.subject, "Solar Eclipse");
         mainNode.addProperty(RDF.predicate, RDFS.isDefinedBy);
-
 
         // Create an empty resource
         Resource test = model.createResource();
@@ -72,7 +63,7 @@ public class Main {
         // add property to relate subject and object where "Predicate is the object (in
         // this case a literal")
 
-        //Example of one node
+        // Example of one node
 
         test.addProperty(RDF.subject, "00001A");
         test.addProperty(RDF.object, "00001");
@@ -86,7 +77,6 @@ public class Main {
         test.addProperty(RDF.predicate, "eclipse longitude");
 
         mainNode.addProperty(RDF.object, test);
-
 
         return model;
     }
