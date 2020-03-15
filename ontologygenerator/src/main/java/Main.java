@@ -10,30 +10,39 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         // Writing RDF
-        Model model = rdfModelStructure();
+        Model model = openCsvFile();
+        // model = basicStructure();
         model.write(System.out);
-
 
     } // end of main
 
-    public static void openCsvFile() throws IOException {
+    // needs to receive the file path once having been verified the file does
+    // exist....Parameter:string
+    public static Model openCsvFile() throws IOException {
         // opening the csv file
 
         String absolutePath = Paths.get(".").toAbsolutePath().normalize().toString();
-        String pathToLunar = "\\ontologygenerator\\dataset\\lunar.csv";
-        String csvLunarFilepath = absolutePath + pathToLunar;
+        String pathToSolar = "\\ontologygenerator\\dataset\\solar.csv";
+        String csvSolarPath = absolutePath + pathToSolar;
         // System.out.println(lunarFile.getAbsolutePath());
 
-        BufferedReader fileReader = new BufferedReader(new FileReader(csvLunarFilepath));
+        BufferedReader fileReader = new BufferedReader(new FileReader(csvSolarPath));
         String csv_row = fileReader.readLine();
         String[] column_names = csv_row.split(",");
 
+        Model model = ModelFactory.createDefaultModel();
+
+        csv_row = fileReader.readLine();
+
         while (csv_row != null) {
+
             String[] csv_row_cells = csv_row.split(",");
             if (csv_row_cells.length > 0) {
-                System.out.println(csv_row_cells[0]);
+                model = solarEclipseBaseModel(csv_row_cells, model);
             }
+           
             csv_row = fileReader.readLine();
+
         }
 
         fileReader.close();
@@ -43,35 +52,68 @@ public class Main {
             System.out.print(column_names[i] + ", ");
         }
 
+        return model;
         // System.out.println("Lunar File Exists...Now Reading its content");
     }
 
-    public static Model rdfModelStructure() {
+    public static Model solarEclipseBaseModel(String[] csv_row_cells, Model model) {
 
-        // Create an empty model for the CSV File
-        Model model = ModelFactory.createDefaultModel();
+        Resource solarEclipse = model.createResource();
+        Literal se_id = model.createLiteral(csv_row_cells[0] + "SE");
+        solarEclipse.addLiteral(RDF.value, se_id);
 
-        // create main node
-        Resource mainNode = model.createResource();
+        /*------------------------------------------- [Catalog Number] -----------------------------------------*/
 
-        mainNode.addProperty(RDF.subject, "Solar Eclipse");
-        mainNode.addProperty(RDF.predicate, RDFS.isDefinedBy);
+        Resource catalog_number = model.createResource();
+        // Literal catal_num = model.createLiteral("00001");
+        catalog_number.addLiteral(RDF.predicate, csv_row_cells[0]);
+        /*------------------------------------------- [Calendar Date] -----------------------------------------*/
 
-        // Create a Resource 
-        Resource test = model.createResource();
+        /*-----------------------------=------------- [Recorded Time] -----------------------------------------*/
+        Resource eclipse_time = model.createResource();
 
-        test.addProperty(RDF.subject, "00001A");
-        test.addProperty(RDF.object, "00001");
-        // create solar eclipse properties
-        test.addProperty(RDF.predicate, "catalog number");
-        test.addProperty(RDF.predicate, "calendar date");
-        test.addProperty(RDF.predicate, "eclipse time");
-        test.addProperty(RDF.predicate, "eclipse type");
-        test.addProperty(RDF.predicate, "eclipse magnitude");
-        test.addProperty(RDF.predicate, "eclipse latitude");
-        test.addProperty(RDF.predicate, "eclipse longitude");
+        Literal rec_time = model.createLiteral(csv_row_cells[2]);
+        eclipse_time.addLiteral(RDF.predicate, rec_time);
 
-        mainNode.addProperty(RDF.object, test);
+        /*---------------------------------------------[Eclipse Type]-----------------------------------------*/
+        Resource eclipse_type = model.createResource();
+        Literal ecl_type = model.createLiteral(csv_row_cells[3]);
+        eclipse_type.addLiteral(RDF.predicate, ecl_type);
+
+        /*-------------------------------------------[Eclipse Magnitude] ----------------------------------------*/
+        Resource eclipse_magnitude = model.createResource();
+        eclipse_magnitude.addLiteral(RDF.predicate, csv_row_cells[4]);
+
+        /*--------------------------------------------[Geolocation ] ----------------------------------------*/
+
+        // create geolocation node and make the instance of
+        Resource geoLocation = model.createResource();
+
+        // create latitude node and points it to the latitude literal value
+        Resource latitude = model.createResource(); // creates the node for the latitude
+        Literal lat_value = model.createLiteral(csv_row_cells[5]); // prepares the literal value that the node will
+                                                                   // point to
+        latitude.addLiteral(RDF.predicate, lat_value); // assigns the literal value of the latitude
+        latitude.addProperty(RDF.type, geoLocation); // makes the latitude of type Geolocation
+
+        // create longitude node and points it to the longitude literal value
+        Resource longitude = model.createResource();
+        Literal long_value = model.createLiteral(csv_row_cells[6]);
+        longitude.addLiteral(RDF.predicate, long_value);
+        longitude.addProperty(RDF.type, geoLocation);
+
+        // creates the statement for the geolocation has latitude and longitude
+        model.add(geoLocation, RDF.predicate, latitude);
+        model.add(geoLocation, RDF.predicate, longitude);
+
+        /*--------------------------------------------[Model Statements] ----------------------------------------*/
+
+        model.add(solarEclipse, RDF.predicate, catalog_number);
+        // NEED CALENDAR TIME
+        model.add(solarEclipse, RDF.predicate, eclipse_time);
+        model.add(solarEclipse, RDF.predicate, eclipse_type);
+        model.add(solarEclipse, RDF.predicate, eclipse_magnitude);
+        model.add(solarEclipse, RDF.predicate, geoLocation);
 
         return model;
     }
