@@ -1,10 +1,14 @@
 import java.io.*;
 import java.nio.file.Paths;
 
+
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.vocabulary.*;
 
+
 public class SolarEclipse {
+
+   
 
     public static void writeRDFOutputFile(Model model) throws FileNotFoundException {
 
@@ -44,7 +48,7 @@ public class SolarEclipse {
         while (csv_row != null) {
 
             String[] csv_row_cells = csv_row.split(",");
-            model = solarEclipseBaseModel(csv_row_cells, model);
+            model = solarEclipseBaseModel(column_names, model, csv_row_cells);
 
             csv_row = fileReader.readLine();
 
@@ -53,15 +57,19 @@ public class SolarEclipse {
         fileReader.close();
 
         // reading the column names
-        for (int i = 0; i < column_names.length; i++) {
-            System.out.print(column_names[i] + ", ");
-        }
+        // for (int i = 0; i < column_names.length; i++) {
+        // System.out.print(column_names[i] + ", ");
+        // }
 
         return model;
         // System.out.println("Lunar File Exists...Now Reading its content");
     }
 
-    public static Model solarEclipseBaseModel(String[] csv_row_cells, Model model) {
+    public static Model solarEclipseBaseModel( String[] column_names, Model model, String[] csv_row_cells) {
+
+        String owlNamespace= "http://www.w3.org/2002/07/owl#";
+        String xsdNamespace = "http://www.w3.org/2001/XMLSchema#";
+        String exNamespace = "http://example.org/time/";
 
         // COMMENT[YASHUA]: don't know if we actually need this part now ???
         Resource solarEclipse = model.createResource();
@@ -72,17 +80,17 @@ public class SolarEclipse {
 
         Resource catalog_number = model.createResource();
         // Literal catal_num = model.createLiteral("00001");
-        catalog_number.addLiteral(RDF.predicate, csv_row_cells[0]);
+        catalog_number.addLiteral(RDF.subject, csv_row_cells[0]);
         /*------------------------------------------- [Calendar Date] -----------------------------------------*/
 
         Resource date = model.createResource();
-
+        
         Literal csv_date = model.createLiteral(csv_row_cells[1]);
-        date.addLiteral(RDF.predicate, csv_date);
+        date.addLiteral(RDF.subject, csv_date);
 
         String[] splitDate = csv_row_cells[1].split(" ");
 
-        // format of date was saved differently instead of yyyy mm dd was saved yy-mm-dd
+        // if format of date was saved differently -- instead of yyyy mm dd was saved as yy-mm-dd
         if (splitDate.length == 1) {
             splitDate = csv_row_cells[1].split("-");
             // System.out.println(splitDate[0]);
@@ -90,17 +98,21 @@ public class SolarEclipse {
 
         Resource year = model.createResource();
         Literal yyyy = model.createLiteral(splitDate[0]);
-        year.addProperty(RDF.predicate, yyyy);
+        Property owlYr = model.createProperty(owlNamespace, "year");
+        year.addLiteral(owlYr, yyyy);
 
         Resource month = model.createResource();
         Literal mm = model.createLiteral(splitDate[1]);
-        month.addProperty(RDF.predicate, mm);
+        Property owlMonth = model.createProperty(owlNamespace, "month");
+        month.addLiteral(owlMonth, mm);
 
         Resource day = model.createResource();
         Literal dd = model.createLiteral(splitDate[2]);
-        day.addProperty(RDF.predicate, dd);
+        Property owlDate = model.createProperty(owlNamespace, "day");
+        day.addLiteral(owlDate, dd);
 
-        // add day month and year saved as year month day 
+        //A DATE ONLY HAS THREE OBJECTS AND THREE TYPES OF PROPERTIES(PREDICATES)
+        // add day month and year saved as year month day
         date.addProperty(RDF.predicate, day);
         date.addProperty(RDF.predicate, month);
         date.addProperty(RDF.predicate, year);
@@ -109,16 +121,17 @@ public class SolarEclipse {
         Resource eclipse_time = model.createResource();
 
         Literal rec_time = model.createLiteral(csv_row_cells[2]);
-        eclipse_time.addLiteral(RDF.predicate, rec_time);
+        eclipse_time.addLiteral(RDF.subject, rec_time);
 
         /*---------------------------------------------[Eclipse Type]-----------------------------------------*/
         Resource eclipse_type = model.createResource();
         Literal ecl_type = model.createLiteral(csv_row_cells[3]);
-        eclipse_type.addLiteral(RDF.predicate, ecl_type);
+        eclipse_type.addLiteral(RDF.subject, ecl_type);
 
         /*-------------------------------------------[Eclipse Magnitude] ----------------------------------------*/
         Resource eclipse_magnitude = model.createResource();
-        eclipse_magnitude.addLiteral(RDF.predicate, csv_row_cells[4]);
+        Literal mag = model.createTypedLiteral(new Double(csv_row_cells[4]));
+        eclipse_magnitude.addLiteral(RDF.subject, mag);
 
         /*--------------------------------------------[Geolocation ] ----------------------------------------*/
 
@@ -127,15 +140,14 @@ public class SolarEclipse {
 
         // create latitude node and points it to the latitude literal value
         Resource latitude = model.createResource(); // creates the node for the latitude
-        Literal lat_value = model.createLiteral(csv_row_cells[5]); // prepares the literal value that the node will
-                                                                   // point to
-        latitude.addLiteral(RDF.predicate, lat_value); // assigns the literal value of the latitude
+        Literal lat_value = model.createLiteral(csv_row_cells[5]); // prepares the literal value that the node will                                                           // point to
+        latitude.addLiteral(RDF.subject, lat_value); // assigns the literal value of the latitude
         latitude.addProperty(RDF.type, geoLocation); // makes the latitude of type Geolocation
 
         // create longitude node and points it to the longitude literal value
         Resource longitude = model.createResource();
         Literal long_value = model.createLiteral(csv_row_cells[6]);
-        longitude.addLiteral(RDF.predicate, long_value);
+        longitude.addLiteral(RDF.subject, long_value);
         longitude.addProperty(RDF.type, geoLocation);
 
         // creates the statement for the geolocation has latitude and longitude
