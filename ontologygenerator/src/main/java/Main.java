@@ -57,13 +57,8 @@ public class Main {
         mainNode.addProperty(RDF.subject, "Solar Eclipse");
         mainNode.addProperty(RDF.predicate, RDFS.isDefinedBy);
 
-        // Create an empty resource
+        // Create a Resource 
         Resource test = model.createResource();
-
-        // add property to relate subject and object where "Predicate is the object (in
-        // this case a literal")
-
-        // Example of one node
 
         test.addProperty(RDF.subject, "00001A");
         test.addProperty(RDF.object, "00001");
