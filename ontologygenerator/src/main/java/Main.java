@@ -12,26 +12,30 @@ public class Main {
         // Writing RDF
         Model model = openCsvFile();
 
-
-
-        /*TO-DO: 
-        1) WRITE OUT TO A FILE
-        2) CREATE OTHER MODELS
-        3) IMPLEMENT OOD FOR CLEANER STRUCTURE
-        4) MAKE SURE OUR FORM FOR THE NODES ARE CORRECT THE PROPERTY TYPES AND SO ON
-        */
+        /*
+         * TO-DO: 1) WRITE OUT TO A FILE 2) CREATE OTHER MODELS 3) IMPLEMENT OOD FOR
+         * CLEANER STRUCTURE 4) MAKE SURE OUR FORM FOR THE NODES ARE CORRECT THE
+         * PROPERTY TYPES AND SO ON
+         */
 
         String absolutePath = Paths.get(".").toAbsolutePath().normalize().toString();
-        String pathToOutput = absolutePath+ "\\ontologygenerator\\dataset\\output.txt";
+        String pathToOutput = absolutePath + "\\ontologygenerator\\dataset\\output.txt";
 
         File outputFile = new File(pathToOutput);
 
-        FileOutputStream output = new FileOutputStream(outputFile);
+        if (outputFile.exists()) {
 
-        model.write(output);
+            outputFile.delete();
+            FileOutputStream output = new FileOutputStream(outputFile);
+            model.write(output);
+
+        } else {
+            FileOutputStream output = new FileOutputStream(outputFile);
+            model.write(output);
+        }
+
     } // end of main
 
-    
     public static Model openCsvFile() throws IOException {
         // opening the csv file
 
@@ -52,7 +56,6 @@ public class Main {
             String[] csv_row_cells = csv_row.split(",");
 
             model = solarEclipseBaseModel(csv_row_cells, model);
-            
 
             csv_row = fileReader.readLine();
 
@@ -71,7 +74,7 @@ public class Main {
 
     public static Model solarEclipseBaseModel(String[] csv_row_cells, Model model) {
 
-        //COMMENT[YASHUA]: don't know if we actually need this part now ???
+        // COMMENT[YASHUA]: don't know if we actually need this part now ???
         Resource solarEclipse = model.createResource();
         Literal se_id = model.createLiteral(csv_row_cells[0] + "SE");
         solarEclipse.addLiteral(RDF.value, se_id);
@@ -153,5 +156,3 @@ public class Main {
     }
 
 }
-
-
