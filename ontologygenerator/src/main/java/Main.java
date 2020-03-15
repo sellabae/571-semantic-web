@@ -9,6 +9,9 @@ public class Main {
 
         Model model = SolarEclipse.convertCsv2rdf();
         SolarEclipse.writeRDFOutputFile(model);
+
+        Model meteoriteModel = Meteorites.convertCsv2rdf();
+        Meteorites.writeRDFOutputFile(meteoriteModel);
         /*
          * TO-DO: 
          *  1) CREATE OTHER MODELS
