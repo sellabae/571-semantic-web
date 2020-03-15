@@ -11,22 +11,35 @@ public class Main {
 
         // Writing RDF
         Model model = openCsvFile();
-        // model = basicStructure();
-        model.write(System.out);
 
+
+
+        /*TO-DO: 
+        1) WRITE OUT TO A FILE
+        2) CREATE OTHER MODELS
+        3) IMPLEMENT OOD FOR CLEANER STRUCTURE
+        4) MAKE SURE OUR FORM FOR THE NODES ARE CORRECT THE PROPERTY TYPES AND SO ON
+        */
+
+        String absolutePath = Paths.get(".").toAbsolutePath().normalize().toString();
+        String pathToOutput = absolutePath+ "\\ontologygenerator\\dataset\\output.txt";
+
+        File outputFile = new File(pathToOutput);
+
+        FileOutputStream output = new FileOutputStream(outputFile);
+
+        model.write(output);
     } // end of main
 
-    // needs to receive the file path once having been verified the file does
-    // exist....Parameter:string
+    
     public static Model openCsvFile() throws IOException {
         // opening the csv file
 
         String absolutePath = Paths.get(".").toAbsolutePath().normalize().toString();
-        String pathToSolar = "\\ontologygenerator\\dataset\\solar.csv";
-        String csvSolarPath = absolutePath + pathToSolar;
+        String pathToSolar = absolutePath + "\\ontologygenerator\\dataset\\solar.csv";
         // System.out.println(lunarFile.getAbsolutePath());
 
-        BufferedReader fileReader = new BufferedReader(new FileReader(csvSolarPath));
+        BufferedReader fileReader = new BufferedReader(new FileReader(pathToSolar));
         String csv_row = fileReader.readLine();
         String[] column_names = csv_row.split(",");
 
@@ -37,10 +50,10 @@ public class Main {
         while (csv_row != null) {
 
             String[] csv_row_cells = csv_row.split(",");
-            if (csv_row_cells.length > 0) {
-                model = solarEclipseBaseModel(csv_row_cells, model);
-            }
-           
+
+            model = solarEclipseBaseModel(csv_row_cells, model);
+            
+
             csv_row = fileReader.readLine();
 
         }
@@ -58,6 +71,7 @@ public class Main {
 
     public static Model solarEclipseBaseModel(String[] csv_row_cells, Model model) {
 
+        //COMMENT[YASHUA]: don't know if we actually need this part now ???
         Resource solarEclipse = model.createResource();
         Literal se_id = model.createLiteral(csv_row_cells[0] + "SE");
         solarEclipse.addLiteral(RDF.value, se_id);
@@ -139,3 +153,5 @@ public class Main {
     }
 
 }
+
+
