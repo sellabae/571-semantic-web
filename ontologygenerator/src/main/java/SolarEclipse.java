@@ -1,14 +1,10 @@
 import java.io.*;
 import java.nio.file.Paths;
 
-
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.vocabulary.*;
 
-
 public class SolarEclipse {
-
-   
 
     public static void writeRDFOutputFile(Model model) throws FileNotFoundException {
 
@@ -65,16 +61,16 @@ public class SolarEclipse {
         // System.out.println("Lunar File Exists...Now Reading its content");
     }
 
-    public static Model solarEclipseBaseModel( String[] column_names, Model model, String[] csv_row_cells) {
+    public static Model solarEclipseBaseModel(String[] column_names, Model model, String[] csv_row_cells) {
 
-        String owlNamespace= "http://www.w3.org/2002/07/owl#";
+        String owlNamespace = "http://www.w3.org/2002/07/owl#";
         String xsdNamespace = "http://www.w3.org/2001/XMLSchema#";
         String exNamespace = "http://example.org/time/";
 
         // COMMENT[YASHUA]: don't know if we actually need this part now ???
-        Resource solarEclipse = model.createResource();
-        Literal se_id = model.createLiteral(csv_row_cells[0] + "SE");
-        solarEclipse.addLiteral(RDF.value, se_id);
+        // Linking the resource to a solar eclipse
+
+        Resource solarEclipse = model.createResource("https://eclipse.gsfc.nasa.gov/solar.html");
 
         /*------------------------------------------- [Catalog Number] -----------------------------------------*/
 
@@ -84,13 +80,14 @@ public class SolarEclipse {
         /*------------------------------------------- [Calendar Date] -----------------------------------------*/
 
         Resource date = model.createResource();
-        
+
         Literal csv_date = model.createLiteral(csv_row_cells[1]);
         date.addLiteral(RDF.subject, csv_date);
 
         String[] splitDate = csv_row_cells[1].split(" ");
 
-        // if format of date was saved differently -- instead of yyyy mm dd was saved as yy-mm-dd
+        // if format of date was saved differently -- instead of yyyy mm dd was saved as
+        // yy-mm-dd
         if (splitDate.length == 1) {
             splitDate = csv_row_cells[1].split("-");
             // System.out.println(splitDate[0]);
@@ -111,7 +108,7 @@ public class SolarEclipse {
         Property owlDate = model.createProperty(owlNamespace, "day");
         day.addLiteral(owlDate, dd);
 
-        //A DATE ONLY HAS THREE OBJECTS AND THREE TYPES OF PROPERTIES(PREDICATES)
+        // A DATE ONLY HAS THREE OBJECTS AND THREE TYPES OF PROPERTIES(PREDICATES)
         // add day month and year saved as year month day
         date.addProperty(RDF.predicate, day);
         date.addProperty(RDF.predicate, month);
@@ -140,7 +137,8 @@ public class SolarEclipse {
 
         // create latitude node and points it to the latitude literal value
         Resource latitude = model.createResource(); // creates the node for the latitude
-        Literal lat_value = model.createLiteral(csv_row_cells[5]); // prepares the literal value that the node will                                                           // point to
+        Literal lat_value = model.createLiteral(csv_row_cells[5]); // prepares the literal value that the node will //
+                                                                   // point to
         latitude.addLiteral(RDF.subject, lat_value); // assigns the literal value of the latitude
         latitude.addProperty(RDF.type, geoLocation); // makes the latitude of type Geolocation
 
@@ -157,11 +155,11 @@ public class SolarEclipse {
         /*--------------------------------------------[Model Statements] ----------------------------------------*/
 
         model.add(solarEclipse, RDF.predicate, catalog_number);
-        model.add(solarEclipse, RDF.predicate, date);
-        model.add(solarEclipse, RDF.predicate, eclipse_time);
-        model.add(solarEclipse, RDF.predicate, eclipse_type);
-        model.add(solarEclipse, RDF.predicate, eclipse_magnitude);
-        model.add(solarEclipse, RDF.predicate, geoLocation);
+        model.add(catalog_number, RDF.predicate, date);
+        model.add(catalog_number, RDF.predicate, eclipse_time);
+        model.add(catalog_number, RDF.predicate, eclipse_type);
+        model.add(catalog_number, RDF.predicate, eclipse_magnitude);
+        model.add(catalog_number, RDF.predicate, geoLocation);
 
         return model;
     }
