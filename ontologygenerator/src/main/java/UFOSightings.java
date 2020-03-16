@@ -3,11 +3,31 @@ import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 
 import org.apache.jena.rdf.model.*;
+import org.apache.jena.reasoner.ValidityReport;
 import org.apache.jena.vocabulary.*;
 
 public class UFOSightings {
+
+  public static void validateUFOModel(Model model)
+        {
+                InfModel infModel = ModelFactory.createRDFSModel(model);
+                ValidityReport validity = infModel.validate();
+                if(validity.isValid())
+                {
+                        System.out.println("Model is Valid");
+                }
+                else
+                {
+                        System.out.println("INVALID");
+                        for(Iterator<ValidityReport.Report> i  = validity.getReports(); i.hasNext();)
+                        {
+                                System.out.println(" - " + i.next());
+                        }
+                }
+      }
 
     public static void writeRDFOutputFile(Model model) throws FileNotFoundException {
 
@@ -140,21 +160,21 @@ public class UFOSightings {
         /*--------------------------------------------[Geolocation ] ----------------------------------------*/
 
         // find uri for the geolocation , latitude, and longitude in georss ontology
-        Property geoPoint = model.createProperty(georssNamespace, "point");
-        Property geoLat = model.createProperty(georssNamespace, "lat");
-        Property geoLong = model.createProperty(georssNamespace, "long");
+        //Property geoPoint = model.createProperty(georssNamespace, "point");
+        //Property geoLat = model.createProperty(georssNamespace, "lat");
+        //Property geoLong = model.createProperty(georssNamespace, "long");
         // create geolocation node and make the instance of
-        Resource geoLocation = model.createResource(geoPoint);
+        Resource geoLocation = model.createResource("http://webprotege.stanford.edu/RC91qsDMoPbWXBQGsHAmbxT");
 
         // create latitude node and points it to the latitude literal value
-        Resource latitude = model.createResource(geoLat); // creates the node for the latitude
+        Resource latitude = model.createResource("http://webprotege.stanford.edu/RCQ2qqHZ6ujfTYOwOseU9SG"); // creates the node for the latitude
         Literal latValue = model.createLiteral(csv_row_cells[6]); // prepares the literal value that the node will
         Property isLatitude = model.createProperty("http://webprotege.stanford.edu/RBgyEpVqD0AV1ILL37Mm3QF",
                 "isLatitude");
         latitude.addLiteral(isLatitude, latValue);
 
         // create longitude node and points it to the longitude literal value
-        Resource longitude = model.createResource(geoLong);
+        Resource longitude = model.createResource("http://webprotege.stanford.edu/R7TZdYUOfdOBINhOuHRI92j");
         Literal longValue = model.createLiteral(csv_row_cells[7]);
         Property isLongitude = model.createProperty("http://webprotege.stanford.edu/RCuDcxjZyI5mrZERCOYhR6V",
                 "isLongitude");
