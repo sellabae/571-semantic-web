@@ -41,12 +41,12 @@ public class SolarEclipse {
 
                         outputFile.delete();
                         FileOutputStream output = new FileOutputStream(outputFile);
-                        model.write(output, "RDF/XML-ABBREV");
+                        model.write(output, "RDF/XML");
 
                 } else {
                         outputFile.createNewFile();
                         FileOutputStream output = new FileOutputStream(outputFile);
-                        model.write(output, "RDF/XML-ABBREV");
+                        model.write(output, "RDF/XML");
                 }
         }
 
@@ -235,7 +235,10 @@ public class SolarEclipse {
                 model.add(catalogId, hasEclipseMagnitude, eclipseMagnitude);
                 model.add(catalogId, hasGeolocation, geoLocation);
 
-                //catalogId.addProperty(RDF.type, eclipse);
+                
+                catalogId.addProperty(RDF.type, RDF.Bag);
+                model.add(eclipse, RDF .predicate, catalogId);
+
 
                 return model;
         }
