@@ -12,6 +12,9 @@ public class Main {
 
         Model meteoriteModel = Meteorites.convertCsv2rdf();
         Meteorites.writeRDFOutputFile(meteoriteModel);
+
+        Model ufoModel = UFOSightings.convertCsv2rdf();
+        UFOSightings.writeRDFOutputFile(ufoModel);
         /*
          * TO-DO: 
          *  1) CREATE OTHER MODELS
