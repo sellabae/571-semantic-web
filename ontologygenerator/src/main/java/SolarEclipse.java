@@ -6,7 +6,7 @@ import org.apache.jena.vocabulary.*;
 
 public class SolarEclipse {
 
-    public static void writeRDFOutputFile(Model model) throws FileNotFoundException {
+    public static void writeRDFOutputFile(Model model) throws IOException {
 
         String absolutePath = Paths.get(".").toAbsolutePath().normalize().toString();
         String pathToOutput = absolutePath + "\\ontologygenerator\\dataset\\output.txt";
@@ -20,6 +20,7 @@ public class SolarEclipse {
             model.write(output);
 
         } else {
+            outputFile.createNewFile();
             FileOutputStream output = new FileOutputStream(outputFile);
             model.write(output);
         }
@@ -37,7 +38,9 @@ public class SolarEclipse {
         String csv_row = fileReader.readLine();
         String[] column_names = csv_row.split(",");
 
+
         Model model = ModelFactory.createDefaultModel();
+
 
         csv_row = fileReader.readLine();
 
@@ -69,6 +72,8 @@ public class SolarEclipse {
 
         // COMMENT[YASHUA]: don't know if we actually need this part now ???
         // Linking the resource to a solar eclipse
+
+
 
         Resource solarEclipse = model.createResource("https://eclipse.gsfc.nasa.gov/solar.html");
 

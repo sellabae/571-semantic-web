@@ -10,10 +10,10 @@ public class Meteorites {
 
 
 
-    public static void writeRDFOutputFile(Model model) throws FileNotFoundException {
+    public static void writeRDFOutputFile(Model model) throws IOException {
 
         String absolutePath = Paths.get(".").toAbsolutePath().normalize().toString();
-        String pathToOutput = absolutePath + "\\dataset\\output2.txt";
+        String pathToOutput = absolutePath + "\\ontologygenerator\\dataset\\output2.txt";
 
         File outputFile = new File(pathToOutput);
         if (outputFile.exists()) {
@@ -21,6 +21,7 @@ public class Meteorites {
             FileOutputStream output = new FileOutputStream(outputFile);
             model.write(output);
         } else {
+            outputFile.createNewFile();
             FileOutputStream output = new FileOutputStream(outputFile);
             model.write(output);
         }
@@ -31,7 +32,7 @@ public class Meteorites {
         // opening the csv file
 
         String absolutePath = Paths.get(".").toAbsolutePath().normalize().toString();
-        String pathToSolar = absolutePath + "\\dataset\\meteorites.csv";
+        String pathToSolar = absolutePath + "\\ontologygenerator\\dataset\\meteorites.csv";
         // System.out.println(lunarFile.getAbsolutePath());
 
         BufferedReader fileReader = new BufferedReader(new FileReader(pathToSolar));
@@ -70,7 +71,7 @@ public class Meteorites {
 
         /*------------------------------------------- [Name] -----------------------------------------*/
 
-        //TODO: This should actually be in <Description rdf:about=name>
+        //TO-DO: This should actually be in <Description rdf:about=name>
 
         Resource meteorite = model.createResource();
         Literal literalName = model.createLiteral(csv_row_cells[0]);
@@ -93,7 +94,7 @@ public class Meteorites {
 
         /*-------------------------------------------[Fell or Found] ----------------------------------------*/
         Resource fellFound = model.createResource();
-        Literal literalFell = model.createLiteral(csv_row_cells[4]);
+        Literal literalFell = model.createLiteral(csv_row_cells[3]);
         fellFound.addLiteral(RDF.subject, literalFell);
 
         /*--------------------------------------------[Geolocation ] ----------------------------------------*/
