@@ -70,15 +70,15 @@ public class SolarEclipse {
                 String xsdNamespace = "http://www.w3.org/2001/XMLSchema#";
                 String georssNamespace = "http://www.georss.org/georss";
 
-             
-
-                Resource solarEclipse = model.createResource("https://eclipse.gsfc.nasa.gov/solar.html");
+                // create a general eclipse type
+                Resource eclipse = model.createResource("http://webprotege.stanford.edu/RNhcZbZWYvFtrxsJF2D3Am",
+                                RDFS.Class);
 
                 /*------------------------------------------- [Catalog Number] -----------------------------------------*/
 
                 Resource catalogId = model.createResource();
-                Property hasCatalogNumber = model
-                                .createProperty("http://webprotege.stanford.edu/RrD72JudN46BjQGGwNeWrN", "catalogId");
+                Property hasCatalogNumber = model.createProperty(
+                                "http://webprotege.stanford.edu/RrD72JudN46BjQGGwNeWrN", "hascatalogId");
                 catalogId.addLiteral(hasCatalogNumber, csv_row_cells[0]);
 
                 /*------------------------------------------- [Calendar Date] -----------------------------------------*/
@@ -86,7 +86,8 @@ public class SolarEclipse {
                 Resource date = model.createResource();
 
                 Literal rowDate = model.createLiteral(csv_row_cells[1]);
-                Property onDate = model.createProperty("http://webprotege.stanford.edu/RouMhc22fYnJnR3Ea4egoG" , "onDate");
+                Property onDate = model.createProperty("http://webprotege.stanford.edu/RouMhc22fYnJnR3Ea4egoG",
+                                "onDate");
                 date.addLiteral(onDate, rowDate);
 
                 String[] splitDate = csv_row_cells[1].split(" ");
@@ -115,47 +116,53 @@ public class SolarEclipse {
 
                 /*-----------------------------=------------- [Recorded Time] -----------------------------------------*/
 
-                Resource eclipseTime = model.createResource();
+                Resource eclipseTime = model.createResource("http://webprotege.stanford.edu/RBLfargsiYe66oGM4Eah6Mg");
                 Property dateTime = model.createProperty(xsdNamespace, "time");
                 Literal recordedTime = model.createLiteral(csv_row_cells[2]);
                 eclipseTime.addLiteral(dateTime, recordedTime);
 
                 /*---------------------------------------------[Eclipse Type]--------------------------------------------*/
 
-                Resource eclipseType = model.createResource();
-                Literal eclType = model.createLiteral(csv_row_cells[3]);
+                // create a resource of type solar eclipse
+                // index is 6 in the csv
+                Resource eclipseType = model.createResource("http://webprotege.stanford.edu/RDXWerHagclWqX4imfL8ENJ");
+                Literal eclType = model.createLiteral(csv_row_cells[6]);
                 Property hasEclipseType = model.createProperty("http://webprotege.stanford.edu/R91zh9cMKECVIyrZWmzy4mi",
                                 "hasEclipseType");
                 eclipseType.addLiteral(hasEclipseType, eclType);
 
                 /*-------------------------------------------[Eclipse Magnitude] ----------------------------------------*/
 
-                Resource eclipseMagnitude = model.createResource();
-                Literal mag = model.createTypedLiteral(new Double(csv_row_cells[4]));
+                // index is 8 in .csv
+                Resource eclipseMagnitude = model
+                                .createResource("http://webprotege.stanford.edu/R89ucvdokGPbBhkWfr89i3z");
+                Literal mag = model.createTypedLiteral(new Double(csv_row_cells[8]));
                 Property hasMagnitude = model.createProperty("http://webprotege.stanford.edu/R94as1ZnfNsGxhvhqwQ8sd7",
                                 "isMagnitude");
                 eclipseMagnitude.addLiteral(hasMagnitude, mag);
 
                 /*--------------------------------------------[Geolocation ] --------------------------------------------*/
 
-                // find uri for the geolocation , latitude, and longitude in georss ontology
-                Property geoPoint = model.createProperty(georssNamespace, "point");
-                Property geoLat = model.createProperty(georssNamespace, "lat");
-                Property geoLong = model.createProperty(georssNamespace, "long");
+                // // find uri for the geolocation , latitude, and longitude in georss ontology
+                // Property geoPoint = model.createProperty(georssNamespace, "point");
+                // Property geoLat = model.createProperty(georssNamespace, "lat");
+                // Property geoLong = model.createProperty(georssNamespace, "long");
 
                 // create geolocation node and make the instance of
-                Resource geoLocation = model.createResource(geoPoint);
+                Resource geoLocation = model.createResource("http://webprotege.stanford.edu/RC91qsDMoPbWXBQGsHAmbxT");
 
                 // create latitude node and points it to the latitude literal value
-                Resource latitude = model.createResource(geoLat);
-                Literal latiValue = model.createLiteral(csv_row_cells[5]);
+                // index in csv is 9
+                Resource latitude = model.createResource("http://webprotege.stanford.edu/RCQ2qqHZ6ujfTYOwOseU9SG");
+                Literal latiValue = model.createLiteral(csv_row_cells[9]);
                 Property isLatitude = model.createProperty("http://webprotege.stanford.edu/RBgyEpVqD0AV1ILL37Mm3QF",
                                 "isLatitude");
                 latitude.addLiteral(isLatitude, latiValue);
 
                 // create longitude node and points it to the longitude literal value
-                Resource longitude = model.createResource(geoLong);
-                Literal longiValue = model.createLiteral(csv_row_cells[6]);
+                // index in csv is 10
+                Resource longitude = model.createResource("http://webprotege.stanford.edu/R7TZdYUOfdOBINhOuHRI92j");
+                Literal longiValue = model.createLiteral(csv_row_cells[10]);
                 Property isLongitude = model.createProperty("http://webprotege.stanford.edu/RCuDcxjZyI5mrZERCOYhR6V",
                                 "isLongitude");
                 longitude.addLiteral(isLongitude, longiValue);
@@ -174,8 +181,7 @@ public class SolarEclipse {
 
                 model.add(geoLocation, hasLongitude, longitude);
                 model.add(geoLocation, hasLatitude, latitude);
-                model.add(geoLocation, hasPoint, csv_row_cells[5] + " " + csv_row_cells[6]);
-
+                model.add(geoLocation, hasPoint, csv_row_cells[9] + " " + csv_row_cells[10]);
 
                 Property hasYear = model.createProperty("http://webprotege.stanford.edu/RDomYoSiLe5SCG2vckwHgFi",
                                 "hasYear");
@@ -205,7 +211,7 @@ public class SolarEclipse {
                 model.add(catalogId, hasEclipseMagnitude, eclipseMagnitude);
                 model.add(catalogId, hasGeolocation, geoLocation);
 
-                catalogId.addProperty(RDF.type, solarEclipse);
+                catalogId.addProperty(RDF.type, eclipse);
 
                 return model;
         }
