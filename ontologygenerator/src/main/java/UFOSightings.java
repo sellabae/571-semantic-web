@@ -66,8 +66,8 @@ public class UFOSightings {
     public static Model UFOSightingsBaseModel(String[] csv_row_cells, Model model) {
 
         String owlNamespace = "http://www.w3.org/2002/07/owl#";
-        // String xsdNamespace = "http://www.w3.org/2001/XMLSchema#";
-        // String exNamespace = "http://example.org/time/";
+        String georssNamespace = "http://www.georss.org/georss";
+        String timeNamespace = "http://www.w3.org/2006/time#";
 
         /*------------------------------------------- [Calendar] -----------------------------------------*/
 
@@ -99,69 +99,107 @@ public class UFOSightings {
         Literal dd = model.createLiteral(splitDate[1]);
         Property owlDate = model.createProperty(owlNamespace, "day");
         day.addLiteral(owlDate, dd);
-
-        // A DATE ONLY HAS THREE OBJECTS AND THREE TYPES OF PROPERTIES(PREDICATES)
-        // add day month and year saved as year month day
-        unixTime.addProperty(RDF.predicate, day);
-        unixTime.addProperty(RDF.predicate, month);
-        unixTime.addProperty(RDF.predicate, year);
-
         /*------------------------------------------- [City] -----------------------------------------*/
 
         Resource city = model.createResource();
         Literal cityValue = model.createLiteral(csv_row_cells[1]);
-        city.addLiteral(RDF.predicate, cityValue);
+        Property isCity = model.createProperty("http://webprotege.stanford.edu/R8r0qhFeupftK4LvNe8Som2",
+                "isCity");
+        city.addLiteral(isCity, cityValue);
 
         /*-----------------------------=------------- [State] -----------------------------------------*/
         Resource state = model.createResource();
         Literal stateValue = model.createLiteral(csv_row_cells[2]);
-        state.addLiteral(RDF.predicate, stateValue);
+        Property isState = model.createProperty("http://webprotege.stanford.edu/R80x80hnUcJVfcjlkpWNCjR",
+                "isState");
+        state.addLiteral(isState, stateValue);
 
         /*---------------------------------------------[country]-----------------------------------------*/
         Resource country = model.createResource();
         Literal countryValue = model.createLiteral(csv_row_cells[3]);
-        country.addLiteral(RDF.predicate, countryValue);
+        Property isCountry = model.createProperty("http://webprotege.stanford.edu/R7I0Zs44j5iNqiZanHWj4LO",
+                "isCountry");
+        country.addLiteral(isCountry, countryValue);
 
         /*-------------------------------------------[shape] ----------------------------------------*/
         Resource shape = model.createResource();
         Literal shapeValue = model.createLiteral(csv_row_cells[4]);
-        shape.addLiteral(RDF.predicate, shapeValue);
+        Property isShape = model.createProperty("http://webprotege.stanford.edu/RDuWn2yU6K8ZUaFC1Lr3FLp",
+                "isShape");
+        shape.addLiteral(isShape, shapeValue);
 
         /*-------------------------------------------[duration] ----------------------------------------*/
         Resource duration = model.createResource();
         Literal durationValue = model.createLiteral(csv_row_cells[5]);
-        duration.addLiteral(RDF.predicate, durationValue);
+        Property timeDuration = model.createProperty(timeNamespace, "duration");
+        duration.addLiteral(timeDuration, durationValue);
 
         /*--------------------------------------------[Geolocation ] ----------------------------------------*/
 
+        // find uri for the geolocation , latitude, and longitude in georss ontology
+        Property geoPoint = model.createProperty(georssNamespace, "point");
+        Property geoLat = model.createProperty(georssNamespace, "lat");
+        Property geoLong = model.createProperty(georssNamespace, "long");
         // create geolocation node and make the instance of
-        Resource geoLocation = model.createResource();
+        Resource geoLocation = model.createResource(geoPoint);
 
         // create latitude node and points it to the latitude literal value
-        Resource latitude = model.createResource(); // creates the node for the latitude
+        Resource latitude = model.createResource(geoLat); // creates the node for the latitude
         Literal latValue = model.createLiteral(csv_row_cells[6]); // prepares the literal value that the node will
-                                                                   // point to
-        latitude.addLiteral(RDF.predicate, latValue); // assigns the literal value of the latitude
-        latitude.addProperty(RDF.type, geoLocation); // makes the latitude of type Geolocation
+        Property isLatitude = model.createProperty("http://webprotege.stanford.edu/RBgyEpVqD0AV1ILL37Mm3QF",
+                "isLatitude");
+        latitude.addLiteral(isLatitude, latValue);
 
         // create longitude node and points it to the longitude literal value
-        Resource longitude = model.createResource();
+        Resource longitude = model.createResource(geoLong);
         Literal longValue = model.createLiteral(csv_row_cells[7]);
-        longitude.addLiteral(RDF.predicate, longValue);
-        longitude.addProperty(RDF.type, geoLocation);
+        Property isLongitude = model.createProperty("http://webprotege.stanford.edu/RCuDcxjZyI5mrZERCOYhR6V",
+                "isLongitude");
+        longitude.addLiteral(isLongitude, longValue);
 
-        // creates the statement for the geolocation has latitude and longitude
-        model.add(geoLocation, RDF.predicate, latitude);
-        model.add(geoLocation, RDF.predicate, longitude);
+        Property hasLatitude = model.createProperty("http://webprotege.stanford.edu/R71035Ho9VoqMTn7bzIc21B",
+        "hasLatitude");
+        Property hasLongitude = model.createProperty("http://webprotege.stanford.edu/R9FbDFOr8bMgMHTcqF2Gxij",
+        "hasLongitude");
+        Property hasPoint = model.createProperty("http://www.opengis.net/gml", "Point");
+        model.add(geoLocation, hasLongitude, longitude);
+        model.add(geoLocation, hasLatitude, latitude);
+        model.add(geoLocation, hasPoint, csv_row_cells[6] + " " + csv_row_cells[7]);
 
         /*--------------------------------------------[Model Statements] ----------------------------------------*/
 
-        model.add(unixTime, RDF.predicate, city);
-        model.add(unixTime, RDF.predicate, state);
-        model.add(unixTime, RDF.predicate, country);
-        model.add(unixTime, RDF.predicate, shape);
-        model.add(unixTime, RDF.predicate, duration);
-        model.add(unixTime, RDF.predicate, geoLocation);
+        Property hasYear = model.createProperty("http://webprotege.stanford.edu/RDomYoSiLe5SCG2vckwHgFi", "hasYear");
+        Property hasMonth = model.createProperty("http://webprotege.stanford.edu/RCZicQ5fitSZSerq917vqUU", "hasMonth");
+        Property hasDay = model.createProperty("http://webprotege.stanford.edu/RCR0NsOaKxx92l3xhkVWKmv", "hasDay");
+
+        model.add(unixTime, hasYear, year); //possibly change to date? and add date
+        model.add(unixTime, hasMonth, month);
+        model.add(unixTime, hasDay, day);
+
+        Property hasCity = model.createProperty("http://webprotege.stanford.edu/RBr43uf7cKSbry5dczYyDb4",
+                "hasCity");
+
+        Property hasState = model.createProperty("http://webprotege.stanford.edu/RDA52ZAj360QKrqzJj7Pz9r",
+                "hasState");
+
+        Property hasCountry = model.createProperty("http://webprotege.stanford.edu/R8icTLtCv2HGmZ3IDtAOSTi",
+                "hasCountry");
+        
+        Property hasShape = model.createProperty("http://webprotege.stanford.edu/R9EOOYMmMXN9I0pVswK2ZxM",
+                "hasShape");
+
+        Property hasDuration = model.createProperty("http://webprotege.stanford.edu/R8Zf1mo249URQ81utVpTE18",
+                "hasDuration");
+
+        Property hasGeolocation = model.createProperty("http://webprotege.stanford.edu/R7zoJhYOcFDOQk8Gn6eHIxC",
+                "hasGeolocation");
+
+        model.add(unixTime, hasCity, city);
+        model.add(unixTime, hasState, state);
+        model.add(unixTime, hasCountry, country);
+        model.add(unixTime, hasShape, shape);
+        model.add(unixTime, hasDuration, duration);
+        model.add(unixTime, hasGeolocation, geoLocation);
 
         return model;
     }
