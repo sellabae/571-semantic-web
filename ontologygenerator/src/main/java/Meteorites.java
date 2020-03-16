@@ -109,17 +109,17 @@ public class Meteorites {
         Property geoLong = model.createProperty(georssNamespace, "long");
 
         // create geolocation node and make the instance of
-        Resource geoLocation = model.createResource(geoPoint);
+        Resource geoLocation = model.createResource();
 
         // create latitude node and points it to the latitude literal value
-        Resource latitude = model.createResource(geoLat);
+        Resource latitude = model.createResource();
         Literal latiValue = model.createLiteral(csv_row_cells[5]);
         Property isLatitude = model.createProperty("http://webprotege.stanford.edu/RBgyEpVqD0AV1ILL37Mm3QF",
                 "isLatitude");
         latitude.addLiteral(isLatitude, latiValue);
 
         // create longitude node and points it to the longitude literal value
-        Resource longitude = model.createResource(geoLong);
+        Resource longitude = model.createResource();
         Literal longiValue = model.createLiteral(csv_row_cells[6]);
         Property isLongitude = model.createProperty("http://webprotege.stanford.edu/RCuDcxjZyI5mrZERCOYhR6V",
                 "isLongitude");
