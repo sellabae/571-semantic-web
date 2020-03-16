@@ -69,6 +69,8 @@ public class UFOSightings {
         String georssNamespace = "http://www.georss.org/georss";
         String timeNamespace = "http://www.w3.org/2006/time#";
 
+        Resource ufoSighting = model.createResource("http://webprotege.stanford.edu/RDC5CoBvmuQr9JdXNzJV4i7");
+
         /*------------------------------------------- [Calendar] -----------------------------------------*/
 
         Resource unixTime = model.createResource("http://webprotege.stanford.edu/RLb9bHBRcMLFB7QEpD98at");
@@ -201,6 +203,8 @@ public class UFOSightings {
         model.add(unixTime, hasShape, shape);
         model.add(unixTime, hasDuration, duration);
         model.add(unixTime, hasGeolocation, geoLocation);
+
+        unixTime.addProperty(RDF.type, ufoSighting);
 
         return model;
     }
