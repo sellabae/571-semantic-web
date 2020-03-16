@@ -16,6 +16,7 @@ public class Main {
         Model ufoModel = UFOSightings.convertCsv2rdf();
         UFOSightings.writeRDFOutputFile(ufoModel);
         UFOSightings.validateUFOModel(ufoModel);
+        
         /*
          * TO-DO: 
          *  1) CREATE OTHER MODELS

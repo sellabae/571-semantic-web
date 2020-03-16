@@ -104,9 +104,9 @@ public class Meteorites {
         /*--------------------------------------------[Geolocation ] ----------------------------------------*/
 
         // find uri for the geolocation , latitude, and longitude in georss ontology
-        Property geoPoint = model.createProperty(georssNamespace, "point");
-        Property geoLat = model.createProperty(georssNamespace, "lat");
-        Property geoLong = model.createProperty(georssNamespace, "long");
+        // Property geoPoint = model.createProperty(georssNamespace, "point");
+        // Property geoLat = model.createProperty(georssNamespace, "lat");
+        // Property geoLong = model.createProperty(georssNamespace, "long");
 
         // create geolocation node and make the instance of
         Resource geoLocation = model.createResource();
