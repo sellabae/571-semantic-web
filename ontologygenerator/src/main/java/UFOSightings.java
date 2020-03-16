@@ -71,7 +71,7 @@ public class UFOSightings {
 
         /*------------------------------------------- [Calendar] -----------------------------------------*/
 
-        Resource unixTime = model.createResource();
+        Resource unixTime = model.createResource("http://webprotege.stanford.edu/RLb9bHBRcMLFB7QEpD98at");
         try {
             SimpleDateFormat format = new SimpleDateFormat("mm/dd/yyyy HH:mm");
             Date date = format.parse(csv_row_cells[0]);
@@ -86,51 +86,51 @@ public class UFOSightings {
 
         String[] splitDate = csv_row_cells[0].split("[/ ]");
 
-        Resource year = model.createResource();
+        Resource year = model.createResource("http://webprotege.stanford.edu/RxcPrs8R3VZ7UvWYmlrQfD");
         Literal yyyy = model.createLiteral(splitDate[2]);
         Property owlYr = model.createProperty(owlNamespace, "year");
         year.addLiteral(owlYr, yyyy);
 
-        Resource month = model.createResource();
+        Resource month = model.createResource("http://webprotege.stanford.edu/R7rlF1W41T2W05qZrCxDIVf");
         Literal mm = model.createLiteral(splitDate[0]);
         Property owlMonth = model.createProperty(owlNamespace, "month");
         month.addLiteral(owlMonth, mm);
 
-        Resource day = model.createResource();
+        Resource day = model.createResource("http://webprotege.stanford.edu/R8JQhygzEiESrtOg3pcIdch");
         Literal dd = model.createLiteral(splitDate[1]);
         Property owlDate = model.createProperty(owlNamespace, "day");
         day.addLiteral(owlDate, dd);
         /*------------------------------------------- [City] -----------------------------------------*/
 
-        Resource city = model.createResource();
+        Resource city = model.createResource("http://webprotege.stanford.edu/RDJCPCGgVJVlCiyzOzUjS4E");
         Literal cityValue = model.createLiteral(csv_row_cells[1]);
         Property isCity = model.createProperty("http://webprotege.stanford.edu/R8r0qhFeupftK4LvNe8Som2",
                 "isCity");
         city.addLiteral(isCity, cityValue);
 
         /*-----------------------------=------------- [State] -----------------------------------------*/
-        Resource state = model.createResource();
+        Resource state = model.createResource("http://webprotege.stanford.edu/RljympFXFnyhHIw17jE469");
         Literal stateValue = model.createLiteral(csv_row_cells[2]);
         Property isState = model.createProperty("http://webprotege.stanford.edu/R80x80hnUcJVfcjlkpWNCjR",
                 "isState");
         state.addLiteral(isState, stateValue);
 
         /*---------------------------------------------[country]-----------------------------------------*/
-        Resource country = model.createResource();
+        Resource country = model.createResource("http://webprotege.stanford.edu/RBwNmRM4ifVFMBEx5999bL2");
         Literal countryValue = model.createLiteral(csv_row_cells[3]);
         Property isCountry = model.createProperty("http://webprotege.stanford.edu/R7I0Zs44j5iNqiZanHWj4LO",
                 "isCountry");
         country.addLiteral(isCountry, countryValue);
 
         /*-------------------------------------------[shape] ----------------------------------------*/
-        Resource shape = model.createResource();
+        Resource shape = model.createResource("http://webprotege.stanford.edu/Roh0bGZCc7KH6aBLbSIBc9");
         Literal shapeValue = model.createLiteral(csv_row_cells[4]);
         Property isShape = model.createProperty("http://webprotege.stanford.edu/RDuWn2yU6K8ZUaFC1Lr3FLp",
                 "isShape");
         shape.addLiteral(isShape, shapeValue);
 
         /*-------------------------------------------[duration] ----------------------------------------*/
-        Resource duration = model.createResource();
+        Resource duration = model.createResource("http://webprotege.stanford.edu/RCgDCFSzX5cherJc9ypaCEX");
         Literal durationValue = model.createLiteral(csv_row_cells[5]);
         Property timeDuration = model.createProperty(timeNamespace, "duration");
         duration.addLiteral(timeDuration, durationValue);
