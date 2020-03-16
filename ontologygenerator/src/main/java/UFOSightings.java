@@ -78,7 +78,8 @@ public class UFOSightings {
             long timestamp = date.getTime();
             String timeString = String.valueOf(timestamp);
             Literal csv_dateTime = model.createLiteral(timeString);
-            unixTime.addLiteral(RDF.predicate, csv_dateTime);
+            Property isUnix = model.createProperty("http://webprotege.stanford.edu/Rxdi8o7Xanct1IYtOlmXSN", "isUnixTime");
+            unixTime.addLiteral(isUnix, csv_dateTime);
         } catch (ParseException e) {
             System.out.println("date formating issue");
         }
