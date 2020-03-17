@@ -25,7 +25,7 @@ public class SolarEclipse {
         public static void writeRDFOutputFile(Model model) throws IOException {
 
                 String absolutePath = Paths.get(".").toAbsolutePath().normalize().toString();
-                String pathToOutput = absolutePath + "\\ontologygenerator\\dataset\\Solar.rdf";
+                String pathToOutput = absolutePath + "\\ontologygenerator\\dataset\\Solar.txt";
 
                 File outputFile = new File(pathToOutput);
 
@@ -33,12 +33,12 @@ public class SolarEclipse {
 
                         outputFile.delete();
                         FileOutputStream output = new FileOutputStream(outputFile);
-                        model.write(output, "RDF/XML");
+                        model.write(output);
 
                 } else {
                         outputFile.createNewFile();
                         FileOutputStream output = new FileOutputStream(outputFile);
-                        model.write(output, "RDF/XML");
+                        model.write(output);
                 }
         }
 
@@ -70,14 +70,7 @@ public class SolarEclipse {
                 }
 
                 fileReader.close();
-
-                // reading the column names
-                // for (int i = 0; i < column_names.length; i++) {
-                // System.out.print(column_names[i] + ", ");
-                // }
-
                 return model;
-                // System.out.println("Lunar File Exists...Now Reading its content");
         }
 
         public static Model solarEclipseBaseModel(Model model, String[] csv_row_cells) {
@@ -86,25 +79,30 @@ public class SolarEclipse {
                 String xsdNamespace = "http://www.w3.org/2001/XMLSchema#";
                 // String georssNamespace = "http://www.georss.org/georss";
 
-                // create a general eclipse type
-                Resource eclipse = model.createResource("http://webprotege.stanford.edu/RDXWerHagclWqX4imfL8ENJ",
-                                RDFS.Class);
+                // create a solar eclipse
+                Resource eclipse = model.createResource("http://webprotege.stanford.edu/RDXWerHagclWqX4imfL8ENJ");
 
-                /*------------------------------------------- [Catalog Number] -----------------------------------------*/
+                /*------------------------------------------- [ 1 Catalog Number] -----------------------------------------*/
 
                 Resource catalogId = model.createResource();
                 Property hasCatalogNumber = model.createProperty(
                                 "http://webprotege.stanford.edu/RrD72JudN46BjQGGwNeWrN", "hascatalogId");
                 catalogId.addLiteral(hasCatalogNumber, csv_row_cells[0]);
 
-                /*------------------------------------------- [Calendar Date] -----------------------------------------*/
+                /*------------------------------------------- [2 Calendar Date] -----------------------------------------*/
 
+                // Classes
+                Resource recordDate = model.createResource("http://webprotege.stanford.edu/RCnxPgbCWfKs79Jc9Q9kIHp");
+                Resource monthClass = model.createResource("http://webprotege.stanford.edu/R7rlF1W41T2W05qZrCxDIVf");
+                Resource dayClass = model.createResource("http://webprotege.stanford.edu/R8JQhygzEiESrtOg3pcIdch");
+                Resource yearClass = model.createResource("http://webprotege.stanford.edu/RxcPrs8R3VZ7UvWYmlrQfD");
+
+                // instances
                 Resource date = model.createResource();
-
-                Literal rowDate = model.createLiteral(csv_row_cells[1]);
+                Literal recDate = model.createLiteral(csv_row_cells[1]);
                 Property onDate = model.createProperty("http://webprotege.stanford.edu/RouMhc22fYnJnR3Ea4egoG",
                                 "onDate");
-                date.addLiteral(onDate, rowDate);
+                date.addLiteral(onDate, recDate);
 
                 String[] splitDate = csv_row_cells[1].split(" ");
 
@@ -115,88 +113,99 @@ public class SolarEclipse {
                         // System.out.println(splitDate[0]);
                 }
 
-                // Resource year =
-                // model.createResource("http://webprotege.stanford.edu/RxcPrs8R3VZ7UvWYmlrQfD");
                 Resource year = model.createResource();
                 Literal yyyy = model.createLiteral(splitDate[0]);
                 Property owlYear = model.createProperty(owlNamespace, "year");
                 year.addLiteral(owlYear, yyyy);
 
-              
-                // Resource month =
-                // model.createResource("http://webprotege.stanford.edu/R7rlF1W41T2W05qZrCxDIVf");
                 Resource month = model.createResource();
                 Literal mm = model.createLiteral(splitDate[1]);
                 Property owlMonth = model.createProperty(owlNamespace, "month");
                 month.addLiteral(owlMonth, mm);
 
-                // Resource day =
-                // model.createResource("http://webprotege.stanford.edu/R8JQhygzEiESrtOg3pcIdch");
                 Resource day = model.createResource();
                 Literal dd = model.createLiteral(splitDate[2]);
                 Property owlDate = model.createProperty(owlNamespace, "day");
                 day.addLiteral(owlDate, dd);
 
-                /*-----------------------------=------------- [Recorded Time] -----------------------------------------*/
+                // connect instances to classes
+                year.addProperty(RDF.type, yearClass);
+                month.addProperty(RDF.type, monthClass);
+                day.addProperty(RDF.type, dayClass);
+                date.addProperty(RDF.type, recordDate);
+
+                /*-----------------------------=------------- [3 Recorded Time] -----------------------------------------*/
+
+                // classes
+                Resource recordTime = model.createResource("http://webprotege.stanford.edu/RBLfargsiYe66oGM4Eah6Mg");
 
                 Resource eclipseTime = model.createResource();
                 Property dateTime = model.createProperty(xsdNamespace, "time");
                 Literal recordedTime = model.createLiteral(csv_row_cells[2]);
                 eclipseTime.addLiteral(dateTime, recordedTime);
 
-                /*---------------------------------------------[Eclipse Type]--------------------------------------------*/
+                // instance
+                eclipseTime.addProperty(RDF.type, recordTime);
+
+                /*---------------------------------------------[4 Eclipse Type]--------------------------------------------*/
+
+                // class
+                Resource eclipseSolarTypeClass = model
+                                .createResource("http://webprotege.stanford.edu/RDXWerHagclWqX4imfL8ENJ");
 
                 // create a resource of type solar eclipse
-                // Resource eclipseType =
-                // model.createResource("http://webprotege.stanford.edu/RDXWerHagclWqX4imfL8ENJ");
                 Resource eclipseType = model.createResource();
                 Literal eclType = model.createLiteral(csv_row_cells[3]);
                 Property hasEclipseType = model.createProperty("http://webprotege.stanford.edu/R91zh9cMKECVIyrZWmzy4mi",
                                 "hasEclipseType");
                 eclipseType.addLiteral(hasEclipseType, eclType);
 
-                /*-------------------------------------------[Eclipse Magnitude] ----------------------------------------*/
+                // instance
+                eclipseType.addProperty(RDF.type, eclipseSolarTypeClass);
 
-                // Resource eclipseMagnitude = model
-                // .createResource("http://webprotege.stanford.edu/R89ucvdokGPbBhkWfr89i3z");
+                /*-------------------------------------------[5 Eclipse Magnitude] ----------------------------------------*/
+                // class
+                Resource magnitudeClass = model
+                                .createResource("http://webprotege.stanford.edu/R89ucvdokGPbBhkWfr89i3z");
+
                 Resource eclipseMagnitude = model.createResource();
                 Literal mag = model.createTypedLiteral(new Double(csv_row_cells[4]));
                 Property hasMagnitude = model.createProperty("http://webprotege.stanford.edu/R94as1ZnfNsGxhvhqwQ8sd7",
                                 "isMagnitude");
                 eclipseMagnitude.addLiteral(hasMagnitude, mag);
 
-                /*--------------------------------------------[Geolocation ] --------------------------------------------*/
+                // instance
+                eclipseMagnitude.addProperty(RDF.type, magnitudeClass);
 
-                // // find uri for the geolocation , latitude, and longitude in georss ontology
-                // Property geoPoint = model.createProperty(georssNamespace, "point");
-                // Property geoLat = model.createProperty(georssNamespace, "lat");
-                // Property geoLong = model.createProperty(georssNamespace, "long");
+                /*--------------------------------------------[6 Geolocation ] --------------------------------------------*/
+
+                // classes
+                Resource geoLocation = model.createResource("http://webprotege.stanford.edu/RC91qsDMoPbWXBQGsHAmbxT");
+                Resource latitudeClass = model.createResource("http://webprotege.stanford.edu/RCQ2qqHZ6ujfTYOwOseU9SG");
+                Resource longitudeClass = model
+                                .createResource("http://webprotege.stanford.edu/R7TZdYUOfdOBINhOuHRI92j");
 
                 // create geolocation node and make the instance of
-                // Resource geoLocation =
-                // model.createResource("http://webprotege.stanford.edu/RC91qsDMoPbWXBQGsHAmbxT");
-                Resource geoLocation = model.createResource();
+                Resource point = model.createResource();
 
                 // create latitude node and points it to the latitude literal value
-                // index in csv is 9
-                // Resource latitude =
-                // model.createResource("http://webprotege.stanford.edu/RCQ2qqHZ6ujfTYOwOseU9SG");
                 Resource latitude = model.createResource();
-
                 Literal latiValue = model.createLiteral(csv_row_cells[5]);
                 Property isLatitude = model.createProperty("http://webprotege.stanford.edu/RBgyEpVqD0AV1ILL37Mm3QF",
                                 "isLatitude");
                 latitude.addLiteral(isLatitude, latiValue);
 
                 // create longitude node and points it to the longitude literal value
-                // index in csv is 10
-                // Resource longitude =
-                // model.createResource("http://webprotege.stanford.edu/R7TZdYUOfdOBINhOuHRI92j");
                 Resource longitude = model.createResource();
                 Literal longiValue = model.createLiteral(csv_row_cells[6]);
                 Property isLongitude = model.createProperty("http://webprotege.stanford.edu/RCuDcxjZyI5mrZERCOYhR6V",
                                 "isLongitude");
                 longitude.addLiteral(isLongitude, longiValue);
+
+                // instances
+                point.addProperty(RDF.type, geoLocation);
+                latitude.addProperty(RDF.type, latitudeClass);
+                longitude.addProperty(RDF.type, longitudeClass);
 
                 /*--------------------------------------------[Model Statements] ---------------------------------------*/
 
@@ -210,9 +219,9 @@ public class SolarEclipse {
                                 "hasLongitude");
                 Property hasPoint = model.createProperty("http://www.opengis.net/gml", "Point");
 
-                model.add(geoLocation, hasLongitude, longitude);
-                model.add(geoLocation, hasLatitude, latitude);
-                model.add(geoLocation, hasPoint, csv_row_cells[5] + " " + csv_row_cells[6]);
+                model.add(point, hasLongitude, longitude);
+                model.add(point, hasLatitude, latitude);
+                model.add(point, hasPoint, csv_row_cells[5] + " " + csv_row_cells[6]);
 
                 Property hasYear = model.createProperty("http://webprotege.stanford.edu/RDomYoSiLe5SCG2vckwHgFi",
                                 "hasYear");
@@ -240,8 +249,9 @@ public class SolarEclipse {
                 model.add(catalogId, hasEclipseTime, eclipseTime);
                 model.add(catalogId, hasSolarEclipseType, eclipseType);
                 model.add(catalogId, hasEclipseMagnitude, eclipseMagnitude);
-                model.add(catalogId, hasGeolocation, geoLocation);
+                model.add(catalogId, hasGeolocation, point);
 
+                // this catalog row is an instance of a solar eclipe
                 catalogId.addProperty(RDF.type, eclipse);
 
                 return model;

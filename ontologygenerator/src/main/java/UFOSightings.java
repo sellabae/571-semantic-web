@@ -86,7 +86,7 @@ public class UFOSightings {
     public static Model UFOSightingsBaseModel(String[] csv_row_cells, Model model) {
 
         String owlNamespace = "http://www.w3.org/2002/07/owl#";
-        String georssNamespace = "http://www.georss.org/georss";
+        //String georssNamespace = "http://www.georss.org/georss";
         String timeNamespace = "http://www.w3.org/2006/time#";
 
         Resource ufoSighting = model.createResource();
@@ -225,7 +225,6 @@ public class UFOSightings {
         model.add(unixTime, hasGeolocation, geoLocation);
 
         unixTime.addProperty(RDF.type, ufoSighting);
-
         return model;
     }
 }

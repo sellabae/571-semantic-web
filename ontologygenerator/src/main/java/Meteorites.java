@@ -66,7 +66,7 @@ public class Meteorites {
         // String owlNamespace= "http://www.w3.org/2002/07/owl#";
         // String xsdNamespace = "http://www.w3.org/2001/XMLSchema#";
         // String exNamespace = "http://example.org/time/";
-        String georssNamespace = "http://www.georss.org/georss";
+        //String georssNamespace = "http://www.georss.org/georss";
 
         Resource meteoriteResource = model.createResource("https://data.nasa.gov/Space-Science/Meteorite-Landings/gh4g-9sfh/data");
 
