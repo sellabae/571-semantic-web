@@ -89,9 +89,13 @@ public class UFOSightings {
         //String georssNamespace = "http://www.georss.org/georss";
         String timeNamespace = "http://www.w3.org/2006/time#";
 
-        Resource ufoSighting = model.createResource();
+        Resource ufoSighting = model.createResource("http://webprotege.stanford.edu/RDC5CoBvmuQr9JdXNzJV4i7");
 
         /*------------------------------------------- [Calendar] -----------------------------------------*/
+        Resource unixClass = model.createResource("http://webprotege.stanford.edu/RLb9bHBRcMLFB7QEpD98at");
+        Resource monthClass = model.createResource("http://webprotege.stanford.edu/R7rlF1W41T2W05qZrCxDIVf");
+        Resource dayClass = model.createResource("http://webprotege.stanford.edu/R8JQhygzEiESrtOg3pcIdch");
+        Resource yearClass = model.createResource("http://webprotege.stanford.edu/RxcPrs8R3VZ7UvWYmlrQfD");
 
         Resource unixTime = model.createResource();
         try {
@@ -103,68 +107,99 @@ public class UFOSightings {
             Property isUnix = model.createProperty("http://webprotege.stanford.edu/Rxdi8o7Xanct1IYtOlmXSN", "isUnixTime");
             unixTime.addLiteral(isUnix, csv_dateTime);
         } catch (ParseException e) {
-            System.out.println("date formating issue");
+            
         }
 
         String[] splitDate = csv_row_cells[0].split("[/ ]");
+        Literal yyyy;
+        Literal mm;
+        Literal dd;
 
+        if(splitDate.length == 1){
+          yyyy = model.createLiteral("");
+          mm = model.createLiteral("");
+          dd = model.createLiteral("");
+        }
+        else {
+          yyyy = model.createLiteral(splitDate[2]);
+          mm = model.createLiteral(splitDate[0]);
+          dd = model.createLiteral(splitDate[1]);
+        }
         Resource year = model.createResource();
-        Literal yyyy = model.createLiteral(splitDate[2]);
         Property owlYr = model.createProperty(owlNamespace, "year");
         year.addLiteral(owlYr, yyyy);
 
         Resource month = model.createResource();
-        Literal mm = model.createLiteral(splitDate[0]);
         Property owlMonth = model.createProperty(owlNamespace, "month");
         month.addLiteral(owlMonth, mm);
 
         Resource day = model.createResource();
-        Literal dd = model.createLiteral(splitDate[1]);
         Property owlDate = model.createProperty(owlNamespace, "day");
         day.addLiteral(owlDate, dd);
+
+        year.addProperty(RDF.type, yearClass);
+        month.addProperty(RDF.type, monthClass);
+        day.addProperty(RDF.type, dayClass);
+        unixTime.addProperty(RDF.type, unixClass);
         /*------------------------------------------- [City] -----------------------------------------*/
 
+        Resource cityClass = model.createResource("http://webprotege.stanford.edu/RDJCPCGgVJVlCiyzOzUjS4E");
         Resource city = model.createResource();
         Literal cityValue = model.createLiteral(csv_row_cells[1]);
         Property isCity = model.createProperty("http://webprotege.stanford.edu/R8r0qhFeupftK4LvNe8Som2",
                 "isCity");
         city.addLiteral(isCity, cityValue);
 
+        city.addProperty(RDF.type, cityClass);
+
         /*-----------------------------=------------- [State] -----------------------------------------*/
+        Resource stateClass = model.createResource("http://webprotege.stanford.edu/RljympFXFnyhHIw17jE469");
         Resource state = model.createResource();
         Literal stateValue = model.createLiteral(csv_row_cells[2]);
         Property isState = model.createProperty("http://webprotege.stanford.edu/R80x80hnUcJVfcjlkpWNCjR",
                 "isState");
         state.addLiteral(isState, stateValue);
 
+        state.addProperty(RDF.type, stateClass);
         /*---------------------------------------------[country]-----------------------------------------*/
+        Resource countryClass = model.createResource("http://webprotege.stanford.edu/RBwNmRM4ifVFMBEx5999bL2");
         Resource country = model.createResource();
         Literal countryValue = model.createLiteral(csv_row_cells[3]);
         Property isCountry = model.createProperty("http://webprotege.stanford.edu/R7I0Zs44j5iNqiZanHWj4LO",
                 "isCountry");
         country.addLiteral(isCountry, countryValue);
 
+        country.addProperty(RDF.type, countryClass);
         /*-------------------------------------------[shape] ----------------------------------------*/
+        Resource shapeClass = model.createResource("http://webprotege.stanford.edu/Roh0bGZCc7KH6aBLbSIBc9");
         Resource shape = model.createResource();
         Literal shapeValue = model.createLiteral(csv_row_cells[4]);
         Property isShape = model.createProperty("http://webprotege.stanford.edu/RDuWn2yU6K8ZUaFC1Lr3FLp",
                 "isShape");
         shape.addLiteral(isShape, shapeValue);
 
+        shape.addProperty(RDF.type, shapeClass);
+
         /*-------------------------------------------[duration] ----------------------------------------*/
+        Resource durationClass = model.createResource("http://webprotege.stanford.edu/RCgDCFSzX5cherJc9ypaCEX");
         Resource duration = model.createResource();
         Literal durationValue = model.createLiteral(csv_row_cells[5]);
         Property timeDuration = model.createProperty(timeNamespace, "duration");
         duration.addLiteral(timeDuration, durationValue);
 
+        duration.addProperty(RDF.type,durationClass);
+
         /*--------------------------------------------[Geolocation ] ----------------------------------------*/
 
+        Resource geoLocation = model.createResource("http://webprotege.stanford.edu/RC91qsDMoPbWXBQGsHAmbxT");
+        Resource latitudeClass = model.createResource("http://webprotege.stanford.edu/RCQ2qqHZ6ujfTYOwOseU9SG");
+        Resource longitudeClass = model.createResource("http://webprotege.stanford.edu/R7TZdYUOfdOBINhOuHRI92j");
         // find uri for the geolocation , latitude, and longitude in georss ontology
         //Property geoPoint = model.createProperty(georssNamespace, "point");
         //Property geoLat = model.createProperty(georssNamespace, "lat");
         //Property geoLong = model.createProperty(georssNamespace, "long");
         // create geolocation node and make the instance of
-        Resource geoLocation = model.createResource();
+        Resource point = model.createResource();
 
         // create latitude node and points it to the latitude literal value
         Resource latitude = model.createResource(); // creates the node for the latitude
@@ -180,16 +215,20 @@ public class UFOSightings {
                 "isLongitude");
         longitude.addLiteral(isLongitude, longValue);
 
+        point.addProperty(RDF.type, geoLocation);
+        latitude.addProperty(RDF.type, latitudeClass);
+        longitude.addProperty(RDF.type, longitudeClass);
+        /*--------------------------------------------[Model Statements] ----------------------------------------*/
+
         Property hasLatitude = model.createProperty("http://webprotege.stanford.edu/R71035Ho9VoqMTn7bzIc21B",
         "hasLatitude");
         Property hasLongitude = model.createProperty("http://webprotege.stanford.edu/R9FbDFOr8bMgMHTcqF2Gxij",
         "hasLongitude");
         Property hasPoint = model.createProperty("http://www.opengis.net/gml", "Point");
-        model.add(geoLocation, hasLongitude, longitude);
-        model.add(geoLocation, hasLatitude, latitude);
-        model.add(geoLocation, hasPoint, csv_row_cells[6] + " " + csv_row_cells[7]);
 
-        /*--------------------------------------------[Model Statements] ----------------------------------------*/
+        model.add(point, hasLongitude, longitude);
+        model.add(point, hasLatitude, latitude);
+        model.add(point, hasPoint, csv_row_cells[6] + " " + csv_row_cells[7]);
 
         Property hasYear = model.createProperty("http://webprotege.stanford.edu/RDomYoSiLe5SCG2vckwHgFi", "hasYear");
         Property hasMonth = model.createProperty("http://webprotege.stanford.edu/RCZicQ5fitSZSerq917vqUU", "hasMonth");
