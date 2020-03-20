@@ -96,6 +96,7 @@ public class UFOSightings {
         Resource monthClass = model.createResource("http://webprotege.stanford.edu/R7rlF1W41T2W05qZrCxDIVf");
         Resource dayClass = model.createResource("http://webprotege.stanford.edu/R8JQhygzEiESrtOg3pcIdch");
         Resource yearClass = model.createResource("http://webprotege.stanford.edu/RxcPrs8R3VZ7UvWYmlrQfD");
+        Resource recordDate = model.createResource("http://webprotege.stanford.edu/RCnxPgbCWfKs79Jc9Q9kIHp");
 
         Resource unixTime = model.createResource();
         try {
@@ -114,17 +115,27 @@ public class UFOSightings {
         Literal yyyy;
         Literal mm;
         Literal dd;
+        String dateString;
 
         if(splitDate.length == 1){
           yyyy = model.createLiteral("");
           mm = model.createLiteral("");
           dd = model.createLiteral("");
+          dateString = "yyyy/mm/dd";
         }
         else {
           yyyy = model.createLiteral(splitDate[2]);
           mm = model.createLiteral(splitDate[0]);
           dd = model.createLiteral(splitDate[1]);
+          dateString = splitDate[2] + "/" + splitDate[0] + "/" + splitDate[1];
         }
+
+        Resource date = model.createResource();
+        Literal recDate = model.createLiteral(dateString);
+        Property onDate = model.createProperty("http://webprotege.stanford.edu/RouMhc22fYnJnR3Ea4egoG",
+                                "onDate");
+        date.addLiteral(onDate, recDate);
+
         Resource year = model.createResource();
         Property owlYr = model.createProperty(owlNamespace, "year");
         year.addLiteral(owlYr, yyyy);
@@ -141,6 +152,7 @@ public class UFOSightings {
         month.addProperty(RDF.type, monthClass);
         day.addProperty(RDF.type, dayClass);
         unixTime.addProperty(RDF.type, unixClass);
+        date.addProperty(RDF.type, recordDate);
         /*------------------------------------------- [City] -----------------------------------------*/
 
         Resource cityClass = model.createResource("http://webprotege.stanford.edu/RDJCPCGgVJVlCiyzOzUjS4E");
@@ -233,10 +245,12 @@ public class UFOSightings {
         Property hasYear = model.createProperty("http://webprotege.stanford.edu/RDomYoSiLe5SCG2vckwHgFi", "hasYear");
         Property hasMonth = model.createProperty("http://webprotege.stanford.edu/RCZicQ5fitSZSerq917vqUU", "hasMonth");
         Property hasDay = model.createProperty("http://webprotege.stanford.edu/RCR0NsOaKxx92l3xhkVWKmv", "hasDay");
+        Property hasDate = model.createProperty("http://webprotege.stanford.edu/R9Q4bA5QlW7PHvsliEATc9p", "hasDate");
 
         model.add(unixTime, hasYear, year); //possibly change to date? and add date
         model.add(unixTime, hasMonth, month);
         model.add(unixTime, hasDay, day);
+        model.add(unixTime, hasDate, date);
 
         Property hasCity = model.createProperty("http://webprotege.stanford.edu/RBr43uf7cKSbry5dczYyDb4",
                 "hasCity");
