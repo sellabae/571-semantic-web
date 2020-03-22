@@ -139,28 +139,29 @@ public class SolarEclipse {
                 // classes
                 Resource recordTime = model.createResource("http://webprotege.stanford.edu/RBLfargsiYe66oGM4Eah6Mg");
 
+                // instance
                 Resource eclipseTime = model.createResource();
                 Property dateTime = model.createProperty(xsdNamespace, "time");
                 Literal recordedTime = model.createLiteral(csv_row_cells[2]);
                 eclipseTime.addLiteral(dateTime, recordedTime);
 
-                // instance
+                // typing instance
                 eclipseTime.addProperty(RDF.type, recordTime);
 
                 /*---------------------------------------------[4 Eclipse Type]--------------------------------------------*/
 
-                // class
+                // eliipse type class
                 Resource eclipseSolarTypeClass = model
                                 .createResource("http://webprotege.stanford.edu/RDXWerHagclWqX4imfL8ENJ");
 
-                // create a resource of type solar eclipse
+                // create instance resource
                 Resource eclipseType = model.createResource();
                 Literal eclType = model.createLiteral(csv_row_cells[3]);
                 Property hasEclipseType = model.createProperty("http://webprotege.stanford.edu/R91zh9cMKECVIyrZWmzy4mi",
                                 "hasEclipseType");
                 eclipseType.addLiteral(hasEclipseType, eclType);
 
-                // instance
+                // typing instance to eclipse type
                 eclipseType.addProperty(RDF.type, eclipseSolarTypeClass);
 
                 /*-------------------------------------------[5 Eclipse Magnitude] ----------------------------------------*/
@@ -168,13 +169,14 @@ public class SolarEclipse {
                 Resource magnitudeClass = model
                                 .createResource("http://webprotege.stanford.edu/R89ucvdokGPbBhkWfr89i3z");
 
+                // instance
                 Resource eclipseMagnitude = model.createResource();
                 Literal mag = model.createTypedLiteral(new Double(csv_row_cells[4]));
                 Property hasMagnitude = model.createProperty("http://webprotege.stanford.edu/R94as1ZnfNsGxhvhqwQ8sd7",
                                 "isMagnitude");
                 eclipseMagnitude.addLiteral(hasMagnitude, mag);
 
-                // instance
+                // typing instance
                 eclipseMagnitude.addProperty(RDF.type, magnitudeClass);
 
                 /*--------------------------------------------[6 Geolocation ] --------------------------------------------*/
@@ -185,7 +187,7 @@ public class SolarEclipse {
                 Resource longitudeClass = model
                                 .createResource("http://webprotege.stanford.edu/R7TZdYUOfdOBINhOuHRI92j");
 
-                // create geolocation node and make the instance of
+                // instance
                 Resource point = model.createResource();
 
                 // create latitude node and points it to the latitude literal value
@@ -202,7 +204,7 @@ public class SolarEclipse {
                                 "isLongitude");
                 longitude.addLiteral(isLongitude, longiValue);
 
-                // instances
+                // typing instances
                 point.addProperty(RDF.type, geoLocation);
                 latitude.addProperty(RDF.type, latitudeClass);
                 longitude.addProperty(RDF.type, longitudeClass);
