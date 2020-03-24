@@ -1,14 +1,25 @@
-import org.apache.jena.propertytable.graph.GraphCSV;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
+
+import java.io.*;
+
+import org.apache.jena.rdf.model.*;
 
 public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
 
+    public static void main(String[] args) throws IOException {
 
-//        Model model = ModelFactory.createModelForGraph(new GraphCSV("data.csv")) ;
+        Model solarModel = SolarEclipse.convertCsv2rdf();
+        SolarEclipse.writeRDFOutputFile(solarModel);
+        // SolarEclipse.validateSolarModel(solarModel);
+        Model meteoriteModel = Meteorites.convertCsv2rdf();
+        Meteorites.writeRDFOutputFile(meteoriteModel);
 
-    }
+        Model ufoModel = UFOSightings.convertCsv2rdf();
+        UFOSightings.writeRDFOutputFile(ufoModel);
+        // UFOSightings.validateUFOModel(ufoModel);
+
+        Model lunarModel = LunarEclipse.convertCsv2rdf();
+        LunarEclipse.writeRDFOutputFile(lunarModel);
+
+    } // end of main
 
 }
