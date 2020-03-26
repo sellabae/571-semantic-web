@@ -2,40 +2,42 @@ import java.io.*;
 import java.nio.file.Paths;
 import java.util.Iterator;
 
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryException;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.reasoner.ValidityReport;
 import org.apache.jena.vocabulary.*;
 
 public class SparqlQueries {
 
-    public static void queryModel(File file) {
+    public static void queryModel(String filepath) throws FileNotFoundException {
 
+        // Open rdf file containing models
+        InputStream rdfGraph = new FileInputStream(new File(filepath));
 
-        //Open rdf file containing models
+        // create an empty in-memory model and populate it from our graph
+        Model model = ModelFactory.createMemModelMaker().createModel();
+        model.read(rdfGraph, null); // null base URI, since model URIs are absolute
+        rdfGraph.close();
 
+        // create a new query
+        String queryString= "";
 
+        // create a new query from the QueryFactory
+        Query query = QueryFactory.create(queryString);
 
-        //create an empty in-memory model and populate it from our graph
+        // Exectue the query and obtain results
+        QueryExecution queryResults = QueryExecutionFactory.create(queryString, model);
+        ResultSet results = queryResults.execSelect();
 
-
-
-        //create a new query
-
-
-        //form queries in string format
-
-
-        //create a new query from the QueryFactory
-
-
-        //Exectue teh query and obtain results
-
-
-
-        //output query results
-
-
-        //free up resources used in running the query
+        // output query results
+        ResultSetFormatter.out(System.out, results, query);
+        // free up resources used in running the query
 
     }
 
