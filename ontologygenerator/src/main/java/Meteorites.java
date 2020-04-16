@@ -92,19 +92,19 @@ public class Meteorites {
                 year.addProperty(RDF.type, yearClass);
 
                 /*-----------------------------=------------- [Class] -----------------------------------------*/
-                Resource classClass = model.createResource("http://webprotege.stanford.edu/RBlMJY4EVuEQFhLandkRqGZ\n");
+                Resource classClass = model.createResource("http://webprotege.stanford.edu/RBlMJY4EVuEQFhLandkRqGZ");
 
                 Resource recClass = model.createResource();
                 Literal literalClass = model.createLiteral(csv_row_cells[1]);
                 Property hasClassType = model
-                                .createProperty("http://webprotege.stanford.edu/RDDxd3TJX3suzy5EXlBsBGk\n");
+                                .createProperty("http://webprotege.stanford.edu/RDDxd3TJX3suzy5EXlBsBGk");
                 recClass.addLiteral(hasClassType, literalClass);
 
                 recClass.addProperty(RDF.type, classClass);
 
                 /*---------------------------------------------[Mass]-----------------------------------------*/
 
-                Resource massClass = model.createResource("http://webprotege.stanford.edu/RDOD99OYIeDShsFAoIM0dme\n");
+                Resource massClass = model.createResource("http://webprotege.stanford.edu/RDOD99OYIeDShsFAoIM0dme");
 
                 Resource mass = model.createResource();
                 Property weighs = model.createProperty("http://webprotege.stanford.edu/R7WItf8cFKHXAgXpcn9qAII",
