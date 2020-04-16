@@ -25,7 +25,9 @@ public class LunarEclipse {
         public static void writeRDFOutputFile(Model model) throws IOException {
 
                 String absolutePath = Paths.get(".").toAbsolutePath().normalize().toString();
-                String pathToOutput = absolutePath + "\\ontologygenerator\\dataset\\LunarOutput.rdf";
+                // String pathToOutput = absolutePath + "\\ontologygenerator\\dataset\\LunarOutput.rdf";
+                String pathToOutput = absolutePath + "/ontologygenerator/dataset/LunarOutput.rdf";
+
 
                 File outputFile = new File(pathToOutput);
 
@@ -47,7 +49,9 @@ public class LunarEclipse {
                 // opening the csv file
 
                 String absolutePath = Paths.get(".").toAbsolutePath().normalize().toString();
-                String pathToLunar = absolutePath + "\\ontologygenerator\\dataset\\lunar2.csv";
+                String pathToLunar = absolutePath + "/ontologygenerator/dataset/lunar2.csv";
+                // String pathToLunar = absolutePath + "\\ontologygenerator\\dataset\\lunar2.csv";
+
                 // System.out.println(lunarFile.getAbsolutePath());
 
                 BufferedReader fileReader = new BufferedReader(new FileReader(pathToLunar));

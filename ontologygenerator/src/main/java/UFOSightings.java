@@ -27,7 +27,10 @@ public class UFOSightings {
         public static void writeRDFOutputFile(Model model) throws FileNotFoundException {
 
                 String absolutePath = Paths.get(".").toAbsolutePath().normalize().toString();
-                String pathToOutput = absolutePath + "\\ontologygenerator\\dataset\\UFOoutput.rdf";
+                // String pathToUFO = absolutePath +
+                // "\\ontologygenerator\\dataset\\UFOSightings.rdf";
+
+                String pathToOutput = absolutePath + "/ontologygenerator/dataset/UFOoutput.rdf";
 
                 File outputFile = new File(pathToOutput);
 
@@ -48,7 +51,10 @@ public class UFOSightings {
                 // opening the csv file
 
                 String absolutePath = Paths.get(".").toAbsolutePath().normalize().toString();
-                String pathToUFO = absolutePath + "\\ontologygenerator\\dataset\\UFOSightings.csv";
+                // String pathToUFO = absolutePath +
+                // "\\ontologygenerator\\dataset\\UFOSightings.csv";
+                String pathToUFO = absolutePath + "/ontologygenerator/dataset/UFOSightings.csv";
+
                 // System.out.println(lunarFile.getAbsolutePath());
 
                 BufferedReader fileReader = new BufferedReader(new FileReader(pathToUFO));

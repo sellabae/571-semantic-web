@@ -9,7 +9,9 @@ public class Meteorites {
         public static void writeRDFOutputFile(Model model) throws IOException {
 
                 String absolutePath = Paths.get(".").toAbsolutePath().normalize().toString();
-                String pathToOutput = absolutePath + "\\ontologygenerator\\dataset\\MeteoriteOutput.rdf";
+                // String pathToOutput = absolutePath + "\\ontologygenerator\\dataset\\MeteoriteOutput.rdf";
+                String pathToOutput = absolutePath + "/ontologygenerator/dataset/MeteoriteOutput.rdf";
+
 
                 File outputFile = new File(pathToOutput);
                 if (outputFile.exists()) {
@@ -28,7 +30,9 @@ public class Meteorites {
                 // opening the csv file
 
                 String absolutePath = Paths.get(".").toAbsolutePath().normalize().toString();
-                String pathToSolar = absolutePath + "\\ontologygenerator\\dataset\\meteorites.csv";
+                // String pathToSolar = absolutePath + "\\ontologygenerator\\dataset\\meteorites.csv";
+                String pathToSolar = absolutePath + "/ontologygenerator/dataset/meteorites.csv";
+
 
                 BufferedReader fileReader = new BufferedReader(new FileReader(pathToSolar));
                 String csv_row = fileReader.readLine();
