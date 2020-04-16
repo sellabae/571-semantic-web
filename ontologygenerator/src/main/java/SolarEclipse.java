@@ -25,7 +25,10 @@ public class SolarEclipse {
         public static void writeRDFOutputFile(Model model) throws IOException {
 
                 String absolutePath = Paths.get(".").toAbsolutePath().normalize().toString();
-                String pathToOutput = absolutePath + "\\ontologygenerator\\dataset\\SolarOutput.rdf";
+                // String pathToOutput = absolutePath + "\\ontologygenerator\\dataset\\SolarOutput.rdf";
+                String pathToOutput = absolutePath + "/ontologygenerator/dataset/SolarOutput.rdf";
+
+
 
                 File outputFile = new File(pathToOutput);
 
@@ -47,7 +50,7 @@ public class SolarEclipse {
                 // opening the csv file
 
                 String absolutePath = Paths.get(".").toAbsolutePath().normalize().toString();
-                String pathToSolar = absolutePath + "\\ontologygenerator\\dataset\\solar.csv";
+                String pathToSolar = absolutePath + "/ontologygenerator/dataset/solar.csv";
                 // System.out.println(lunarFile.getAbsolutePath());
 
                 BufferedReader fileReader = new BufferedReader(new FileReader(pathToSolar));
