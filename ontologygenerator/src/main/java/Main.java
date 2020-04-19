@@ -18,8 +18,8 @@ public class Main {
         // UFOSightings.writeRDFOutputFile(ufoModel);
         // // UFOSightings.validateUFOModel(ufoModel);
 
-        // Model lunarModel = LunarEclipse.convertCsv2rdf();
-        // LunarEclipse.writeRDFOutputFile(lunarModel);
+        Model lunarModel = LunarEclipse.convertCsv2rdf();
+        LunarEclipse.writeRDFOutputFile(lunarModel);
 
         SparqlQueries.queryModel();
 
