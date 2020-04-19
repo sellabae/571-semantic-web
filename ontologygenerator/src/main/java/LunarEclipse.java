@@ -27,7 +27,7 @@ public class LunarEclipse {
                 String absolutePath = Paths.get(".").toAbsolutePath().normalize().toString();
                 // String pathToOutput = absolutePath +
                 // "\\ontologygenerator\\dataset\\LunarOutput.rdf";
-                String pathToOutput = absolutePath + "/ontologygenerator/dataset/LunarOutput.rdf";
+                String pathToOutput = absolutePath + "/ontologygenerator/rdf/LunarOutput.rdf";
 
                 File outputFile = new File(pathToOutput);
 

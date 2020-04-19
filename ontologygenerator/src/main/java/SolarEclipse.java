@@ -27,7 +27,7 @@ public class SolarEclipse {
                 String absolutePath = Paths.get(".").toAbsolutePath().normalize().toString();
                 // String pathToOutput = absolutePath +
                 // "\\ontologygenerator\\dataset\\SolarOutput.rdf";
-                String pathToOutput = absolutePath + "/ontologygenerator/dataset/SolarOutput.rdf";
+                String pathToOutput = absolutePath + "/ontologygenerator/rdf/SolarOutput.rdf";
 
                 File outputFile = new File(pathToOutput);
 

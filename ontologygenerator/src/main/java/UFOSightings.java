@@ -30,7 +30,7 @@ public class UFOSightings {
                 // String pathToUFO = absolutePath +
                 // "\\ontologygenerator\\dataset\\UFOSightings.rdf";
 
-                String pathToOutput = absolutePath + "/ontologygenerator/dataset/UFOoutput.rdf";
+                String pathToOutput = absolutePath + "/ontologygenerator/rdf/UFOoutput.rdf";
 
                 File outputFile = new File(pathToOutput);
 

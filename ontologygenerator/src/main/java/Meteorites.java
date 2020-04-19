@@ -11,7 +11,7 @@ public class Meteorites {
                 String absolutePath = Paths.get(".").toAbsolutePath().normalize().toString();
                 // String pathToOutput = absolutePath +
                 // "\\ontologygenerator\\dataset\\MeteoriteOutput.rdf";
-                String pathToOutput = absolutePath + "/ontologygenerator/dataset/MeteoriteOutput.rdf";
+                String pathToOutput = absolutePath + "/ontologygenerator/rdf/MeteoriteOutput.rdf";
 
                 File outputFile = new File(pathToOutput);
                 if (outputFile.exists()) {

@@ -21,6 +21,8 @@ public class Main {
         Model lunarModel = LunarEclipse.convertCsv2rdf();
         LunarEclipse.writeRDFOutputFile(lunarModel);
 
+        SparqlQueries.queryModel();
+
     } // end of main
 
 }

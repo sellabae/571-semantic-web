@@ -25,8 +25,14 @@ public class SparqlQueries {
         model.read(rdfGraph, null); // null base URI, since model URIs are absolute
         rdfGraph.close();
 
+        String prefixes = "PREFIX base: <http://webprotege.stanford.edu/> "
+                + "PREFIX owl: <http://www.w3.org/2002/07/owl#> ";
+
+        String select = "SELECT ?month ?october ";
+
+        String patterns = "WHERE {?eclise base:month  ?month . ?month owl:month ?october }";
         // create a new query
-        String queryString= "";
+        String queryString = prefixes + select + patterns;
 
         // create a new query from the QueryFactory
         Query query = QueryFactory.create(queryString);
