@@ -90,7 +90,7 @@ public class LunarEclipse {
                 /*------------------------------------------- [ 1 Catalog Number] -----------------------------------------*/
 
                 Resource catalogId = model.createResource();
-                Property hasCatalogNumber = model.createProperty("http://webprotege.stanford.edu/hascatalogId");
+                Property hasCatalogNumber = model.createProperty("http://webprotege.stanford.edu/hasCatalogId");
                 catalogId.addLiteral(hasCatalogNumber, csv_row_cells[0]);
 
                 /*------------------------------------------- [2 Calendar Date] -----------------------------------------*/

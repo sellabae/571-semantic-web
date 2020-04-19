@@ -87,7 +87,7 @@ public class SolarEclipse {
                 /*------------------------------------------- [ 1 Catalog Number] -----------------------------------------*/
 
                 Resource catalogId = model.createResource();
-                Property hasCatalogNumber = model.createProperty("http://webprotege.stanford.edu/hascatalogId");
+                Property hasCatalogNumber = model.createProperty("http://webprotege.stanford.edu/hasCatalogId");
                 catalogId.addLiteral(hasCatalogNumber, csv_row_cells[0]);
 
                 /*------------------------------------------- [2 Calendar Date] -----------------------------------------*/
@@ -209,29 +209,37 @@ public class SolarEclipse {
                 // add day month and year saved as year month day
 
                 // adding thetogether Long and Lat as point and forms a statement
-                // Property hasLatitude = model.createProperty("http://webprotege.stanford.edu/hasLatitude");
-                // Property hasLongitude = model.createProperty("http://webprotege.stanford.edu/hasLongitude");
+                // Property hasLatitude =
+                // model.createProperty("http://webprotege.stanford.edu/hasLatitude");
+                // Property hasLongitude =
+                // model.createProperty("http://webprotege.stanford.edu/hasLongitude");
                 Property hasPoint = model.createProperty("http://www.opengis.net/gml", "Point");
 
                 // model.add(catalogId, hasLongitude, longitude);
                 // model.add(catalogId, hasLatitude, latitude);
                 model.add(catalogId, hasPoint, csv_row_cells[5] + " " + csv_row_cells[6]);
 
-                // Property hasYear = model.createProperty("http://webprotege.stanford.edu/hasYear");
-                // Property hasMonth = model.createProperty("http://webprotege.stanford.edu/hasMonth");
-                // Property hasDay = model.createProperty("http://webprotege.stanford.edu/hasDay");
+                // Property hasYear =
+                // model.createProperty("http://webprotege.stanford.edu/hasYear");
+                // Property hasMonth =
+                // model.createProperty("http://webprotege.stanford.edu/hasMonth");
+                // Property hasDay =
+                // model.createProperty("http://webprotege.stanford.edu/hasDay");
 
                 // model.add(catalogId, hasYear, year);
                 // model.add(catalogId, hasMonth, month);
                 // model.add(catalogId, hasDay, day);
 
-                // Property hasDate = model.createProperty("http://webprotege.stanford.edu/hasDate");
-                // Property hasEclipseTime = model.createProperty("http://webprotege.stanford.edu/hasEclipseTime");
+                // Property hasDate =
+                // model.createProperty("http://webprotege.stanford.edu/hasDate");
+                // Property hasEclipseTime =
+                // model.createProperty("http://webprotege.stanford.edu/hasEclipseTime");
                 // Property hasSolarEclipseType = model
-                //                 .createProperty("http://webprotege.stanford.edu/hasSolarEclipseType");
+                // .createProperty("http://webprotege.stanford.edu/hasSolarEclipseType");
                 // Property hasEclipseMagnitude = model
-                //                 .createProperty("http://webprotege.stanford.edu/hasEclispseMagnitude");
-                // Property hasGeolocation = model.createProperty("http://webprotege.stanford.edu/hasGeolocation");
+                // .createProperty("http://webprotege.stanford.edu/hasEclispseMagnitude");
+                // Property hasGeolocation =
+                // model.createProperty("http://webprotege.stanford.edu/hasGeolocation");
 
                 // model.add(catalogId, hasDate, date);
                 // model.add(catalogId, hasEclipseTime, eclipseTime);

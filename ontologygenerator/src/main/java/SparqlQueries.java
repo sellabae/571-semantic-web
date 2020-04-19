@@ -24,9 +24,9 @@ public class SparqlQueries {
 
         String prefixes = "PREFIX base: <http://webprotege.stanford.edu/> PREFIX owl:<http://www.w3.org/2002/07/owl#> ";
 
-        String select = "SELECT ?x  ?y ";
+        String select = "SELECT ?x ?catalogId ";
 
-        String patterns = "WHERE { ?x base:hasEclipseType \"A\" . ?x owl:month \"May\" }";
+        String patterns = "WHERE { ?x base:hasEclipseType \"A\" . ?x owl:month \"May\" . ?x base:hasCatalogId ?catalogId}";
         // create a new query
         String queryString = prefixes + select + patterns;
 
