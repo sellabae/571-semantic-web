@@ -90,14 +90,21 @@ public class UFOSightings {
                 // String georssNamespace = "http://www.georss.org/georss";
                 String timeNamespace = "http://www.w3.org/2006/time#";
 
-                Resource ufoSighting = model.createResource("http://webprotege.stanford.edu/RDC5CoBvmuQr9JdXNzJV4i7");
+                Resource ufoSightingClass = model.createResource("http://webprotege.stanford.edu/ufoSighting");
+
+                Resource ufoSighting = model.createResource();
 
                 /*------------------------------------------- [Calendar] -----------------------------------------*/
-                Resource unixClass = model.createResource("http://webprotege.stanford.edu/unixTime");
-                Resource monthClass = model.createResource("http://webprotege.stanford.edu/month");
-                Resource dayClass = model.createResource("http://webprotege.stanford.edu/day");
-                Resource yearClass = model.createResource("http://webprotege.stanford.edu/year");
-                Resource recordDate = model.createResource("http://webprotege.stanford.edu/recordedDate");
+                // Resource unixClass =
+                // model.createResource("http://webprotege.stanford.edu/unixTime");
+                // Resource monthClass =
+                // model.createResource("http://webprotege.stanford.edu/month");
+                // Resource dayClass =
+                // model.createResource("http://webprotege.stanford.edu/day");
+                // Resource yearClass =
+                // model.createResource("http://webprotege.stanford.edu/year");
+                // Resource recordDate =
+                // model.createResource("http://webprotege.stanford.edu/recordedDate");
 
                 Resource unixTime = model.createResource();
                 try {
@@ -106,8 +113,8 @@ public class UFOSightings {
                         long timestamp = date.getTime();
                         String timeString = String.valueOf(timestamp);
                         Literal csv_dateTime = model.createLiteral(timeString);
-                        Property isUnix = model.createProperty("http://webprotege.stanford.edu/isUnixTime");
-                        unixTime.addLiteral(isUnix, csv_dateTime);
+                        Property hasUnix = model.createProperty("http://webprotege.stanford.edu/hasUnixTime");
+                        ufoSighting.addLiteral(hasUnix, csv_dateTime);
                 } catch (ParseException e) {
 
                 }
@@ -130,141 +137,144 @@ public class UFOSightings {
                         dateString = splitDate[2] + "/" + splitDate[0] + "/" + splitDate[1];
                 }
 
-                Resource date = model.createResource();
+                // Resource date = model.createResource();
                 Literal recDate = model.createLiteral(dateString);
                 Property onDate = model.createProperty("http://webprotege.stanford.edu/onDate");
-                date.addLiteral(onDate, recDate);
+                ufoSighting.addLiteral(onDate, recDate);
 
-                Resource year = model.createResource();
+                // Resource year = model.createResource();
                 Property owlYr = model.createProperty(owlNamespace, "year");
-                year.addLiteral(owlYr, yyyy);
+                ufoSighting.addLiteral(owlYr, yyyy);
 
-                Resource month = model.createResource();
+                // Resource month = model.createResource();
                 Property owlMonth = model.createProperty(owlNamespace, "month");
-                month.addLiteral(owlMonth, mm);
+                ufoSighting.addLiteral(owlMonth, mm);
 
-                Resource day = model.createResource();
+                // Resource day = model.createResource();
                 Property owlDate = model.createProperty(owlNamespace, "day");
-                day.addLiteral(owlDate, dd);
+                ufoSighting.addLiteral(owlDate, dd);
 
-                year.addProperty(RDF.type, yearClass);
-                month.addProperty(RDF.type, monthClass);
-                day.addProperty(RDF.type, dayClass);
-                unixTime.addProperty(RDF.type, unixClass);
-                date.addProperty(RDF.type, recordDate);
+                // year.addProperty(RDF.type, yearClass);
+                // month.addProperty(RDF.type, monthClass);
+                // day.addProperty(RDF.type, dayClass);
+                // unixTime.addProperty(RDF.type, unixClass);
+                // date.addProperty(RDF.type, recordDate);
                 /*------------------------------------------- [City] -----------------------------------------*/
 
-                Resource cityClass = model.createResource("http://webprotege.stanford.edu/city");
-                Resource city = model.createResource();
+                // Resource cityClass =
+                // model.createResource("http://webprotege.stanford.edu/city");
+                // Resource city = model.createResource();
                 Literal cityValue = model.createLiteral(csv_row_cells[1]);
-                Property isCity = model.createProperty("http://webprotege.stanford.edu/isCity");
-                city.addLiteral(isCity, cityValue);
+                Property inCity = model.createProperty("http://webprotege.stanford.edu/inCity");
+                ufoSighting.addLiteral(inCity, cityValue);
 
-                city.addProperty(RDF.type, cityClass);
+                // city.addProperty(RDF.type, cityClass);
 
                 /*-----------------------------=------------- [State] -----------------------------------------*/
-                Resource stateClass = model.createResource("http://webprotege.stanford.edu/state");
-                Resource state = model.createResource();
+                // Resource stateClass =
+                // model.createResource("http://webprotege.stanford.edu/state");
+                // Resource state = model.createResource();
                 Literal stateValue = model.createLiteral(csv_row_cells[2]);
-                Property isState = model.createProperty("http://webprotege.stanford.edu/isState");
-                state.addLiteral(isState, stateValue);
+                Property inState = model.createProperty("http://webprotege.stanford.edu/inState");
+                ufoSighting.addLiteral(inState, stateValue);
 
-                state.addProperty(RDF.type, stateClass);
+                // state.addProperty(RDF.type, stateClass);
                 /*---------------------------------------------[country]-----------------------------------------*/
-                Resource countryClass = model.createResource("http://webprotege.stanford.edu/country");
-                Resource country = model.createResource();
+                // Resource countryClass =
+                // model.createResource("http://webprotege.stanford.edu/country");
+                // Resource country = model.createResource();
                 Literal countryValue = model.createLiteral(csv_row_cells[3]);
-                Property isCountry = model.createProperty("http://webprotege.stanford.edu/isCountry");
-                country.addLiteral(isCountry, countryValue);
+                Property inCountry = model.createProperty("http://webprotege.stanford.edu/inCountry");
+                ufoSighting.addLiteral(inCountry, countryValue);
 
-                country.addProperty(RDF.type, countryClass);
+                // country.addProperty(RDF.type, countryClass);
                 /*-------------------------------------------[shape] ----------------------------------------*/
-                Resource shapeClass = model.createResource("http://webprotege.stanford.edu/shape");
-                Resource shape = model.createResource();
+                // Resource shapeClass = model.createResource("http://webprotege.stanford.edu/shape");
+                // Resource shape = model.createResource();
                 Literal shapeValue = model.createLiteral(csv_row_cells[4]);
                 Property isShape = model.createProperty("http://webprotege.stanford.edu/isShape");
-                shape.addLiteral(isShape, shapeValue);
+                ufoSighting.addLiteral(isShape, shapeValue);
 
-                shape.addProperty(RDF.type, shapeClass);
+                // shape.addProperty(RDF.type, shapeClass);
 
                 /*-------------------------------------------[duration] ----------------------------------------*/
-                Resource durationClass = model.createResource("http://webprotege.stanford.edu/duration");
-                Resource duration = model.createResource();
+                // Resource durationClass = model.createResource("http://webprotege.stanford.edu/duration");
+                // Resource duration = model.createResource();
                 Literal durationValue = model.createLiteral(csv_row_cells[5]);
                 Property timeDuration = model.createProperty(timeNamespace, "duration");
-                duration.addLiteral(timeDuration, durationValue);
+                ufoSighting.addLiteral(timeDuration, durationValue);
 
-                duration.addProperty(RDF.type, durationClass);
+                // duration.addProperty(RDF.type, durationClass);
 
                 /*--------------------------------------------[Geolocation ] ----------------------------------------*/
 
-                // classes
-                Resource geoLocation = model.createResource("http://webprotege.stanford.edu/geolocation");
-                Resource latitudeClass = model.createResource("http://webprotege.stanford.edu/latitude");
-                Resource longitudeClass = model.createResource("http://webprotege.stanford.edu/longitude");
+                // // classes
+                // Resource geoLocation = model.createResource("http://webprotege.stanford.edu/geolocation");
+                // Resource latitudeClass = model.createResource("http://webprotege.stanford.edu/latitude");
+                // Resource longitudeClass = model.createResource("http://webprotege.stanford.edu/longitude");
                 // find uri for the geolocation , latitude, and longitude in georss ontology
                 // Property geoPoint = model.createProperty(georssNamespace, "point");
                 // Property geoLat = model.createProperty(georssNamespace, "lat");
                 // Property geoLong = model.createProperty(georssNamespace, "long");
                 // create geolocation node and make the instance of
-                Resource point = model.createResource();
+                // Resource point = model.createResource();
 
-                // create latitude node and points it to the latitude literal value
-                Resource latitude = model.createResource(); // creates the node for the latitude
+                // // create latitude node and points it to the latitude literal value
+                // Resource latitude = model.createResource(); // creates the node for the latitude
                 Literal latValue = model.createLiteral(csv_row_cells[6]); // prepares the literal value that the node
                                                                           // will
-                Property isLatitude = model.createProperty("http://webprotege.stanford.edu/isLatitude");
-                latitude.addLiteral(isLatitude, latValue);
+                Property hasLatitude = model.createProperty("http://webprotege.stanford.edu/hasLatitude");
+                ufoSighting.addLiteral(hasLatitude, latValue);
 
                 // create longitude node and points it to the longitude literal value
-                Resource longitude = model.createResource();
+                // Resource longitude = model.createResource();
                 Literal longValue = model.createLiteral(csv_row_cells[7]);
-                Property isLongitude = model.createProperty("http://webprotege.stanford.edu/isLongitude");
-                longitude.addLiteral(isLongitude, longValue);
+                Property hasLongitude = model.createProperty("http://webprotege.stanford.edu/hasLongitude");
+                ufoSighting.addLiteral(hasLongitude, longValue);
 
-                point.addProperty(RDF.type, geoLocation);
-                latitude.addProperty(RDF.type, latitudeClass);
-                longitude.addProperty(RDF.type, longitudeClass);
+                // point.addProperty(RDF.type, geoLocation);
+                // latitude.addProperty(RDF.type, latitudeClass);
+                // longitude.addProperty(RDF.type, longitudeClass);
                 /*--------------------------------------------[Model Statements] ----------------------------------------*/
 
-                Property hasLatitude = model.createProperty("http://webprotege.stanford.edu/hasLatitude");
-                Property hasLongitude = model.createProperty("http://webprotege.stanford.edu/hasLongitude");
+                // Property hasLatitude = model.createProperty("http://webprotege.stanford.edu/hasLatitude");
+                // Property hasLongitude = model.createProperty("http://webprotege.stanford.edu/hasLongitude");
                 Property hasPoint = model.createProperty("http://www.opengis.net/gml", "Point");
 
-                model.add(point, hasLongitude, longitude);
-                model.add(point, hasLatitude, latitude);
-                model.add(point, hasPoint, csv_row_cells[6] + " " + csv_row_cells[7]);
+                // model.add(point, hasLongitude, longitude);
+                // model.add(point, hasLatitude, latitude);
+                model.add(ufoSighting, hasPoint, csv_row_cells[6] + " " + csv_row_cells[7]);
 
-                Property hasYear = model.createProperty("http://webprotege.stanford.edu/hasYear");
-                Property hasMonth = model.createProperty("http://webprotege.stanford.edu/hasMonth");
-                Property hasDay = model.createProperty("http://webprotege.stanford.edu/hasDay");
-                Property hasDate = model.createProperty("http://webprotege.stanford.edu/hasDate");
+                // Property hasYear = model.createProperty("http://webprotege.stanford.edu/hasYear");
+                // Property hasMonth = model.createProperty("http://webprotege.stanford.edu/hasMonth");
+                // Property hasDay = model.createProperty("http://webprotege.stanford.edu/hasDay");
+                // Property hasDate = model.createProperty("http://webprotege.stanford.edu/hasDate");
 
-                model.add(unixTime, hasYear, year); // possibly change to date? and add date
-                model.add(unixTime, hasMonth, month);
-                model.add(unixTime, hasDay, day);
-                model.add(unixTime, hasDate, date);
+                // model.add(unixTime, hasYear, year); // possibly change to date? and add date
+                // model.add(unixTime, hasMonth, month);
+                // model.add(unixTime, hasDay, day);
+                // model.add(unixTime, hasDate, date);
 
-                Property hasCity = model.createProperty("http://webprotege.stanford.edu/hasCity");
+                // Property hasCity = model.createProperty("http://webprotege.stanford.edu/hasCity");
 
-                Property hasState = model.createProperty("http://webprotege.stanford.edu/hasState");
+                // Property hasState = model.createProperty("http://webprotege.stanford.edu/hasState");
 
-                Property hasCountry = model.createProperty("http://webprotege.stanford.edu/hasCountry");
+                // Property hasCountry = model.createProperty("http://webprotege.stanford.edu/hasCountry");
 
-                Property hasShape = model.createProperty("http://webprotege.stanford.edu/hasShape");
+                // Property hasShape = model.createProperty("http://webprotege.stanford.edu/hasShape");
 
-                Property hasDuration = model.createProperty("http://webprotege.stanford.edu/hasDuration");
+                // Property hasDuration = model.createProperty("http://webprotege.stanford.edu/hasDuration");
 
-                Property hasGeolocation = model.createProperty("http://webprotege.stanford.edu/hasGeolocation");
+                // Property hasGeolocation = model.createProperty("http://webprotege.stanford.edu/hasGeolocation");
 
-                model.add(unixTime, hasCity, city);
-                model.add(unixTime, hasState, state);
-                model.add(unixTime, hasCountry, country);
-                model.add(unixTime, hasShape, shape);
-                model.add(unixTime, hasDuration, duration);
-                model.add(unixTime, hasGeolocation, geoLocation);
+                // model.add(unixTime, hasCity, city);
+                // model.add(unixTime, hasState, state);
+                // model.add(unixTime, hasCountry, country);
+                // model.add(unixTime, hasShape, shape);
+                // model.add(unixTime, hasDuration, duration);
+                // model.add(unixTime, hasGeolocation, geoLocation);
 
-                unixTime.addProperty(RDF.type, ufoSighting);
+                ufoSighting.addProperty(RDF.type, ufoSightingClass);
                 return model;
         }
 }

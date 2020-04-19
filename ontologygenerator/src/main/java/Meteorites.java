@@ -82,96 +82,114 @@ public class Meteorites {
                 meteorite.addLiteral(hasName, csv_row_cells[0]);
                 /*------------------------------------------- [Year] -----------------------------------------*/
 
-                Resource yearClass = model.createResource("http://webprotege.stanford.edu/year");
+                // Resource yearClass =
+                // model.createResource("http://webprotege.stanford.edu/year");
 
-                Resource year = model.createResource();
+                // Resource year = model.createResource();
                 Literal literalYear = model.createLiteral(csv_row_cells[4]);
                 Property owlYear = model.createProperty(owlNamespace, "year");
-                year.addLiteral(owlYear, literalYear);
+                meteorite.addLiteral(owlYear, literalYear);
 
-                year.addProperty(RDF.type, yearClass);
+                // year.addProperty(RDF.type, yearClass);
 
                 /*-----------------------------=------------- [Class] -----------------------------------------*/
-                Resource classClass = model.createResource("http://webprotege.stanford.edu/classType");
+                // Resource classClass =
+                // model.createResource("http://webprotege.stanford.edu/classType");
 
-                Resource recClass = model.createResource();
+                // Resource recClass = model.createResource();
                 Literal literalClass = model.createLiteral(csv_row_cells[1]);
                 Property hasClassType = model.createProperty("http://webprotege.stanford.edu/hasClassType");
-                recClass.addLiteral(hasClassType, literalClass);
+                meteorite.addLiteral(hasClassType, literalClass);
 
-                recClass.addProperty(RDF.type, classClass);
+                // recClass.addProperty(RDF.type, classClass);
 
                 /*---------------------------------------------[Mass]-----------------------------------------*/
 
-                Resource massClass = model.createResource("http://webprotege.stanford.edu/mass");
+                // Resource massClass =
+                // model.createResource("http://webprotege.stanford.edu/mass");
 
-                Resource mass = model.createResource();
+                // Resource mass = model.createResource();
                 Property weighs = model.createProperty("http://webprotege.stanford.edu/isWeight");
                 Literal literalMass = model.createLiteral(csv_row_cells[2]);
-                mass.addLiteral(weighs, literalMass);
+                meteorite.addLiteral(weighs, literalMass);
 
-                mass.addProperty(RDF.type, massClass);
+                // mass.addProperty(RDF.type, massClass);
 
                 /*-------------------------------------------[Fell or Found] ----------------------------------------*/
-                Resource fellFoundClass = model.createResource();
+                // Resource fellFoundClass = model.createResource();
 
-                Resource fellFound = model.createResource();
+                // Resource fellFound = model.createResource();
                 Property wasFoundOrFell = model.createProperty("http://webprotege.stanford.edu/wasFoundOrFell");
                 Literal literalFell = model.createLiteral(csv_row_cells[3]);
-                fellFound.addLiteral(wasFoundOrFell, literalFell);
+                meteorite.addLiteral(wasFoundOrFell, literalFell);
 
-                fellFound.addProperty(RDF.type, fellFoundClass);
+                // fellFound.addProperty(RDF.type, fellFoundClass);
 
                 /*--------------------------------------------[Geolocation ] ----------------------------------------*/
 
-                // classes
-                Resource geoLocation = model.createResource("http://webprotege.stanford.edu/geolocation");
-                Resource latitudeClass = model.createResource("http://webprotege.stanford.edu/latitude");
-                Resource longitudeClass = model.createResource("http://webprotege.stanford.edu/longitude");
+                // // classes
+                // Resource geoLocation =
+                // model.createResource("http://webprotege.stanford.edu/geolocation");
+                // Resource latitudeClass =
+                // model.createResource("http://webprotege.stanford.edu/latitude");
+                // Resource longitudeClass =
+                // model.createResource("http://webprotege.stanford.edu/longitude");
 
-                // create geolocation node and make the instance of
-                Resource point = model.createResource();
+                // // create geolocation node and make the instance of
+                // Resource point = model.createResource();
 
                 // create latitude node and points it to the latitude literal value
-                Resource latitude = model.createResource();
+                // Resource latitude = model.createResource();
                 Literal latiValue = model.createLiteral(csv_row_cells[5]);
-                Property isLatitude = model.createProperty("http://webprotege.stanford.edu/isLatitude");
-                latitude.addLiteral(isLatitude, latiValue);
+                // Property isLatitude =
+                // model.createProperty("http://webprotege.stanford.edu/isLatitude");
+                Property hasLatitude = model.createProperty("http://webprotege.stanford.edu/hasLatitude");
+
+                meteorite.addLiteral(hasLatitude, latiValue);
 
                 // create longitude node and points it to the longitude literal value
-                Resource longitude = model.createResource();
+                // Resource longitude = model.createResource();
                 Literal longiValue = model.createLiteral(csv_row_cells[6]);
-                Property isLongitude = model.createProperty("http://webprotege.stanford.edu/isLongitude");
-                longitude.addLiteral(isLongitude, longiValue);
+                // Property isLongitude =
+                // model.createProperty("http://webprotege.stanford.edu/isLongitude");
+                Property hasLongitude = model.createProperty("http://webprotege.stanford.edu/hasLongitude");
+
+                meteorite.addLiteral(hasLongitude, longiValue);
 
                 // instances
-                point.addProperty(RDF.type, geoLocation);
-                latitude.addProperty(RDF.type, latitudeClass);
-                longitude.addProperty(RDF.type, longitudeClass);
+                // point.addProperty(RDF.type, geoLocation);
+                // latitude.addProperty(RDF.type, latitudeClass);
+                // longitude.addProperty(RDF.type, longitudeClass);
 
                 /*--------------------------------------------[Model Statements] ---------------------------------------*/
 
-                // adding thetogether Long and Lat as point and forms a statement
-                Property hasLatitude = model.createProperty("http://webprotege.stanford.edu/hasLatitude");
-                Property hasLongitude = model.createProperty("http://webprotege.stanford.edu/hasLongitude");
+                // // adding thetogether Long and Lat as point and forms a statement
+                // Property hasLatitude =
+                // model.createProperty("http://webprotege.stanford.edu/hasLatitude");
+                // Property hasLongitude =
+                // model.createProperty("http://webprotege.stanford.edu/hasLongitude");
                 Property hasPoint = model.createProperty("http://www.opengis.net/gml", "Point");
 
-                model.add(geoLocation, hasLongitude, longitude);
-                model.add(geoLocation, hasLatitude, latitude);
-                model.add(geoLocation, hasPoint, csv_row_cells[5] + " " + csv_row_cells[6]);
+                // model.add(geoLocation, hasLongitude, longitude);
+                // model.add(geoLocation, hasLatitude, latitude);
+                model.add(meteorite, hasPoint, csv_row_cells[5] + " " + csv_row_cells[6]);
 
                 /*--------------------------------------------[Model Statements] ----------------------------------------*/
 
-                Property hasYear = model.createProperty("http://webprotege.stanford.edu/hasYear");
-                Property hasMass = model.createProperty("http://webprotege.stanford.edu/hasMass");
-                Property fellOrFound = model.createProperty("http://webprotege.stanford.edu/hasFellOrFound");
-                Property hasGeolocation = model.createProperty("http://webprotege.stanford.edu/hasGeolocation");
+                // Property hasYear =
+                // model.createProperty("http://webprotege.stanford.edu/hasYear");
+                // Property hasMass =
+                // model.createProperty("http://webprotege.stanford.edu/hasMass");
+                // Property fellOrFound =
+                // model.createProperty("http://webprotege.stanford.edu/hasFellOrFound");
+                // Property hasGeolocation =
+                // model.createProperty("http://webprotege.stanford.edu/hasGeolocation");
 
-                model.add(meteorite, hasYear, year);
-                model.add(meteorite, RDF.predicate, recClass);
-                model.add(meteorite, hasMass, mass);
-                model.add(meteorite, fellOrFound, fellFound);
-                model.add(meteorite, hasGeolocation, geoLocation);
+                // model.add(meteorite, hasYear, year);
+                // model.add(meteorite, RDF.predicate, recClass);
+                // model.add(meteorite, hasMass, mass);
+                // model.add(meteorite, fellOrFound, fellFound);
+                // model.add(meteorite, hasGeolocation, geoLocation);
 
                 meteorite.addProperty(RDF.type, meteoriteResource);
                 return model;
