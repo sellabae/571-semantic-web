@@ -1,36 +1,32 @@
 import java.io.*;
 import java.nio.file.Paths;
-import java.util.Iterator;
 
 import org.apache.jena.query.Query;
-import org.apache.jena.query.QueryException;
+
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.*;
-import org.apache.jena.reasoner.ValidityReport;
-import org.apache.jena.vocabulary.*;
+import org.apache.jena.riot.RDFDataMgr;
 
 public class SparqlQueries {
 
-    public static void queryModel(String filepath) throws FileNotFoundException {
+    public static void queryModel() throws FileNotFoundException {
 
-        // Open rdf file containing models
-        InputStream rdfGraph = new FileInputStream(new File(filepath));
+        String absolutePath = Paths.get(".").toAbsolutePath().normalize().toString();
+        // String pathToOutput = absolutePath +
+        // "\\ontologygenerator\\dataset\\SolarOutput.rdf";
+        String pathToOutput = absolutePath + "/ontologygenerator/rdf/SolarOutput.rdf";
 
-        // create an empty in-memory model and populate it from our graph
-        Model model = ModelFactory.createMemModelMaker().createModel();
-        model.read(rdfGraph, null); // null base URI, since model URIs are absolute
-        rdfGraph.close();
+        Model model = RDFDataMgr.loadModel(pathToOutput);
 
-        String prefixes = "PREFIX base: <http://webprotege.stanford.edu/> "
-                + "PREFIX owl: <http://www.w3.org/2002/07/owl#> ";
+        String prefixes = "PREFIX base: <http://webprotege.stanford.edu/> PREFIX owl:<http://www.w3.org/2002/07/owl#> ";
 
-        String select = "SELECT ?month ?october ";
+        String select = "SELECT ?x  ?y ";
 
-        String patterns = "WHERE {?eclise base:month  ?month . ?month owl:month ?october }";
+        String patterns = "WHERE { ?x base:hasEclipseType \"A\" . ?x owl:month \"May\" }";
         // create a new query
         String queryString = prefixes + select + patterns;
 
