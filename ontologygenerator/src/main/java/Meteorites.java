@@ -70,6 +70,7 @@ public class Meteorites {
 
                 Resource meteoriteResource = model.createResource(
                                 "https://data.nasa.gov/Space-Science/Meteorite-Landings/gh4g-9sfh/data");
+                /*------------------------------------------- [Year] -----------------------------------------*/
 
                 /*------------------------------------------- [Name] -----------------------------------------*/
 
