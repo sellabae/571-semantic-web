@@ -251,7 +251,7 @@ public class UFOSightings {
 
                 Property hasCountry = model.createProperty("http://webprotege.stanford.edu/hasCountry");
 
-                Property hasShape = model.createProperty("http://webprotege.stanford.ede/hasShape");
+                Property hasShape = model.createProperty("http://webprotege.stanford.edu/hasShape");
 
                 Property hasDuration = model.createProperty("http://webprotege.stanford.edu/hasDuration");
 
