@@ -43,9 +43,41 @@ public class Meteorites {
                 csv_row = fileReader.readLine();
 
                 while (csv_row != null) {
-
+                        System.out.println(
+                                        "-----------------------------------------------------------------------------------------");
                         String[] csv_row_cells = csv_row.split(",");
-                        model = MeteoriteBaseModel(column_names, model, csv_row_cells);
+
+                        int i = 0;
+                        int j = 0;
+                        String[] edited_cells = new String[csv_row_cells.length];
+                        while (i < csv_row_cells.length) {
+                                if (!csv_row_cells[i].equals("")) {
+                                        if (csv_row_cells[i].charAt(0) == '"') {
+                                                // System.out.println(csv_row_cells[i]);
+                                                // System.out.println(csv_row_cells[i + 1]);
+
+                                                csv_row_cells[i] = csv_row_cells[i] + csv_row_cells[i + 1];
+                                                edited_cells[j] = csv_row_cells[i];
+                                                i += 2;
+                                        } else {
+                                                edited_cells[j] = csv_row_cells[i];
+                                                i += 1;
+
+                                        }
+
+                                } else {
+                                        edited_cells[j] = "";
+                                        i += 1;
+
+                                }
+                                j += 1;
+                        }
+
+                        for (int k = 0; k < edited_cells.length; k++) {
+                                System.out.println(edited_cells[k]);
+                        }
+
+                        model = MeteoriteBaseModel(column_names, model, edited_cells);
 
                         csv_row = fileReader.readLine();
 
@@ -70,7 +102,7 @@ public class Meteorites {
 
                 Resource meteoriteResource = model.createResource(
                                 "https://data.nasa.gov/Space-Science/Meteorite-Landings/gh4g-9sfh/data");
-                
+
                 /*------------------------------------------- [Name] -----------------------------------------*/
 
                 // TO-DO: This should actually be in <Description rdf:about=name>
@@ -81,60 +113,58 @@ public class Meteorites {
                 meteorite.addLiteral(hasName, csv_row_cells[0]);
                 /*------------------------------------------- [Year] -----------------------------------------*/
 
-                Literal literalYear = model.createTypedLiteral(new Integer(Integer.parseInt(csv_row_cells[4])));
-                Property owlYear = model.createProperty(owlNamespace, "year");
-                meteorite.addLiteral(owlYear, literalYear);
+                if (!csv_row_cells[4].equals("")) {
 
+                        Literal literalYear = model.createTypedLiteral(new Integer(Integer.parseInt(csv_row_cells[4])));
+                        Property owlYear = model.createProperty(owlNamespace, "year");
+                        meteorite.addLiteral(owlYear, literalYear);
+                }
 
                 /*-----------------------------=------------- [Class] -----------------------------------------*/
-       
+
                 Literal literalClass = model.createLiteral(csv_row_cells[1]);
                 Property hasClassType = model.createProperty("http://webprotege.stanford.edu/hasClassType");
                 meteorite.addLiteral(hasClassType, literalClass);
 
-
                 /*---------------------------------------------[Mass]-----------------------------------------*/
 
-             
                 Property weighs = model.createProperty("http://webprotege.stanford.edu/isWeight");
-                Literal literalMass = model.createTypedLiteral(new Double( Double.parseDouble(csv_row_cells[2])));
-                meteorite.addLiteral(weighs, literalMass);
 
+                if (!csv_row_cells[2].equals("")) {
+                        Literal literalMass = model
+                                        .createTypedLiteral(new Double(Double.parseDouble(csv_row_cells[2])));
+                        meteorite.addLiteral(weighs, literalMass);
+                }
 
                 /*-------------------------------------------[Fell or Found] ----------------------------------------*/
-              
+
                 Property wasFoundOrFell = model.createProperty("http://webprotege.stanford.edu/wasFoundOrFell");
                 Literal literalFell = model.createLiteral(csv_row_cells[3]);
                 meteorite.addLiteral(wasFoundOrFell, literalFell);
 
-
                 /*--------------------------------------------[Geolocation ] ----------------------------------------*/
 
-             
-                Literal latiValue = model.createTypedLiteral(new Double(Double.parseDouble(csv_row_cells[5])));
-       
-                Property hasLatitude = model.createProperty("http://webprotege.stanford.edu/hasLatitude");
+                if (!csv_row_cells[5].equals("")) {
+                        Literal latiValue = model.createTypedLiteral(new Double(Double.parseDouble(csv_row_cells[5])));
 
-                meteorite.addLiteral(hasLatitude, latiValue);
+                        Property hasLatitude = model.createProperty("http://webprotege.stanford.edu/hasLatitude");
 
-       
-                Literal longiValue = model.createTypedLiteral( new Double(Double.parseDouble(csv_row_cells[6])));
-   
-                Property hasLongitude = model.createProperty("http://webprotege.stanford.edu/hasLongitude");
+                        meteorite.addLiteral(hasLatitude, latiValue);
 
-                meteorite.addLiteral(hasLongitude, longiValue);
+                        Literal longiValue = model.createTypedLiteral(new Double(Double.parseDouble(csv_row_cells[6])));
 
+                        Property hasLongitude = model.createProperty("http://webprotege.stanford.edu/hasLongitude");
 
+                        meteorite.addLiteral(hasLongitude, longiValue);
 
+                }
                 /*--------------------------------------------[Model Statements] ---------------------------------------*/
-
 
                 Property hasPoint = model.createProperty("http://www.opengis.net/gml", "Point");
 
                 model.add(meteorite, hasPoint, csv_row_cells[5] + " " + csv_row_cells[6]);
 
                 /*--------------------------------------------[Model Statements] ----------------------------------------*/
-
 
                 meteorite.addProperty(RDF.type, meteoriteResource);
                 return model;

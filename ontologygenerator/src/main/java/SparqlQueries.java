@@ -26,7 +26,7 @@ public class SparqlQueries {
 
         String select = "SELECT ?x ?catalogId ";
 
-        String patterns = "WHERE { ?x base:hasEclipseType \"A\" . ?x owl:month \"May\" . ?x base:hasCatalogId ?catalogId}";
+        String patterns = "WHERE { ?x base:hasEclipseType \"A\" . ?x owl:month 5 . ?x base:hasCatalogId ?catalogId}";
         // create a new query
         String queryString = prefixes + select + patterns;
 
