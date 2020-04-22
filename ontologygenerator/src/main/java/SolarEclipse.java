@@ -6,8 +6,6 @@ import org.apache.jena.rdf.model.*;
 import org.apache.jena.reasoner.ValidityReport;
 import org.apache.jena.vocabulary.*;
 
-import MonthConvert;
-
 public class SolarEclipse {
 
         public static void validateSolarModel(Model model) {
@@ -89,13 +87,11 @@ public class SolarEclipse {
                 Resource catalogId = model.createResource();
                 Property hasCatalogNumber = model.createProperty("http://webprotege.stanford.edu/hasCatalogId");
 
-
-                Literal catId = model.createTypedLiteral(new Integer(Integer.parseInt(csv_row_cells[0]));
+                Literal catId = model.createTypedLiteral(new Integer(Integer.parseInt(csv_row_cells[0])));
                 catalogId.addLiteral(hasCatalogNumber, catId);
 
                 /*------------------------------------------- [2 Calendar Date] -----------------------------------------*/
 
-               
                 Literal recDate = model.createLiteral(csv_row_cells[1]);
                 Property onDate = model.createProperty("http://webprotege.stanford.edu/onDate");
                 catalogId.addLiteral(onDate, recDate);
@@ -109,7 +105,7 @@ public class SolarEclipse {
                         // System.out.println(splitDate[0]);
                 }
 
-                Literal yyyy = model.createTypedLiteral(new Integer (Integer.parseInt(splitDate[0])));
+                Literal yyyy = model.createTypedLiteral(new Integer(Integer.parseInt(splitDate[0])));
                 Property owlYear = model.createProperty(owlNamespace, "year");
                 catalogId.addLiteral(owlYear, yyyy);
 
@@ -162,10 +158,10 @@ public class SolarEclipse {
                 // if the latitude is North then it is positive else it is negative
                 int comparison = Character.compare(lastChar, 'N');
                 if (comparison == 0) {
-                        Literal latiValue = model.createTypedLiteral(new Integer(Integer.parseInt(value)));
+                        Literal latiValue = model.createTypedLiteral(new Double(Double.parseDouble(value)));
                         catalogId.addLiteral(hasLatitude, latiValue);
                 } else {
-                        Literal latiValue = model.createTypedLiteral(new Integer(Integer.parseInt(value) * -1));
+                        Literal latiValue = model.createTypedLiteral(new Double(Double.parseDouble(value) * -1));
                         catalogId.addLiteral(hasLatitude, latiValue);
                 }
 
@@ -183,10 +179,10 @@ public class SolarEclipse {
                 // if the longitude is East then it is positive else it is negative
                 comparison = Character.compare(lastChar, 'E');
                 if (comparison == 0) {
-                        Literal longiValue = model.createTypedLiteral(new Integer(Integer.parseInt(value)));
+                        Literal longiValue = model.createTypedLiteral(new Double(Double.parseDouble(value)));
                         catalogId.addLiteral(hasLongitude, longiValue);
                 } else {
-                        Literal longiValue = model.createTypedLiteral(new Integer(Integer.parseInt(value) * -1));
+                        Literal longiValue = model.createTypedLiteral(new Double(Double.parseDouble(value) * -1));
                         catalogId.addLiteral(hasLongitude, longiValue);
                 }
 
