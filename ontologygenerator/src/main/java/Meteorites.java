@@ -95,10 +95,8 @@ public class Meteorites {
 
         public static Model MeteoriteBaseModel(String[] column_names, Model model, String[] csv_row_cells) {
 
-                String owlNamespace = "http://www.w3.org/2002/07/owl#";
-                // String xsdNamespace = "http://www.w3.org/2001/XMLSchema#";
-                // String exNamespace = "http://example.org/time/";
-                // String georssNamespace = "http://www.georss.org/georss";
+                String owlTimeNamespace = "http://www.w3.org/2006/time#";
+                String geo = "http://www.opengis.net/gml";
 
                 Resource meteoriteResource = model.createResource(
                                 "https://data.nasa.gov/Space-Science/Meteorite-Landings/gh4g-9sfh/data");
@@ -116,7 +114,7 @@ public class Meteorites {
                 if (!csv_row_cells[4].equals("")) {
 
                         Literal literalYear = model.createTypedLiteral(new Integer(Integer.parseInt(csv_row_cells[4])));
-                        Property owlYear = model.createProperty(owlNamespace, "year");
+                        Property owlYear = model.createProperty(owlTimeNamespace, "year");
                         meteorite.addLiteral(owlYear, literalYear);
                 }
 
@@ -147,20 +145,20 @@ public class Meteorites {
                 if (!csv_row_cells[5].equals("")) {
                         Literal latiValue = model.createTypedLiteral(new Double(Double.parseDouble(csv_row_cells[5])));
 
-                        Property hasLatitude = model.createProperty("http://webprotege.stanford.edu/hasLatitude");
+                        Property hasLatitude = model.createProperty(geo, "lat");
 
                         meteorite.addLiteral(hasLatitude, latiValue);
 
                         Literal longiValue = model.createTypedLiteral(new Double(Double.parseDouble(csv_row_cells[6])));
 
-                        Property hasLongitude = model.createProperty("http://webprotege.stanford.edu/hasLongitude");
+                        Property hasLongitude = model.createProperty(geo, "long");
 
                         meteorite.addLiteral(hasLongitude, longiValue);
 
                 }
                 /*--------------------------------------------[Model Statements] ---------------------------------------*/
 
-                Property hasPoint = model.createProperty("http://www.opengis.net/gml", "Point");
+                Property hasPoint = model.createProperty("http://www.opengis.net/gml/Point");
 
                 model.add(meteorite, hasPoint, csv_row_cells[5] + " " + csv_row_cells[6]);
 

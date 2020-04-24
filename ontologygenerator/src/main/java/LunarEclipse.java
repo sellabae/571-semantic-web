@@ -80,9 +80,8 @@ public class LunarEclipse {
 
         public static Model lunarEclipseBaseModel(Model model, String[] csv_row_cells) {
 
-                String owlNamespace = "http://www.w3.org/2002/07/owl#";
+                String owlTimeNamespace = "http://www.w3.org/2006/time#";
                 String xsdNamespace = "http://www.w3.org/2001/XMLSchema#";
-                // String georssNamespace = "http://www.georss.org/georss";
 
                 // create a eclipse
                 Resource eclipse = model.createResource("http://webprotege.stanford.edu/eclipse");
@@ -107,16 +106,16 @@ public class LunarEclipse {
                 }
 
                 Literal yyyy = model.createTypedLiteral(new Integer(Integer.parseInt(splitDate[0])));
-                Property owlYear = model.createProperty(owlNamespace, "year");
+                Property owlYear = model.createProperty(owlTimeNamespace, "year");
                 catalogId.addLiteral(owlYear, yyyy);
 
                 int mon = MonthConverter.string2int(splitDate[1]);
                 Literal mm = model.createTypedLiteral(new Integer(mon));
-                Property owlMonth = model.createProperty(owlNamespace, "month");
+                Property owlMonth = model.createProperty(owlTimeNamespace, "month");
                 catalogId.addLiteral(owlMonth, mm);
 
                 Literal dd = model.createTypedLiteral(new Integer(Integer.parseInt(splitDate[2])));
-                Property owlDate = model.createProperty(owlNamespace, "day");
+                Property owlDate = model.createProperty(owlTimeNamespace, "day");
                 catalogId.addLiteral(owlDate, dd);
                 /*-----------------------------=------------- [3 Recorded Time] -----------------------------------------*/
 
@@ -136,7 +135,7 @@ public class LunarEclipse {
                 eclipseLunarTypeClass.addProperty(RDF.type, eclipse);
 
                 /*--------------------------------------------[5 Geolocation ] --------------------------------------------*/
-                Property hasLatitude = model.createProperty("http://webprotege.stanford.edu/hasLatitude");
+                Property hasLatitude = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
 
                 String value = csv_row_cells[4];
                 // get last value
@@ -149,6 +148,7 @@ public class LunarEclipse {
                 int comparison = Character.compare(lastChar, 'N');
                 if (comparison == 0) {
                         Literal latiValue = model.createTypedLiteral(new Integer(Integer.parseInt(value)));
+
                         catalogId.addLiteral(hasLatitude, latiValue);
                 } else {
                         Literal latiValue = model.createTypedLiteral(new Integer(Integer.parseInt(value) * -1));
@@ -156,7 +156,7 @@ public class LunarEclipse {
                 }
 
                 // longitude value now
-                Property hasLongitude = model.createProperty("http://webprotege.stanford.edu/hasLongitude");
+                Property hasLongitude = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
 
                 value = csv_row_cells[5];
 
@@ -178,7 +178,7 @@ public class LunarEclipse {
 
                 /*--------------------------------------------[Model Statements] ---------------------------------------*/
 
-                Property hasPoint = model.createProperty("http://www.opengis.net/gml", "Point");
+                Property hasPoint = model.createProperty("http://www.opengis.net/gml/Point");
                 model.add(catalogId, hasPoint, csv_row_cells[4] + " " + csv_row_cells[5]);
 
                 return model;

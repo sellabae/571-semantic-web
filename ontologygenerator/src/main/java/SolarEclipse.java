@@ -77,7 +77,7 @@ public class SolarEclipse {
 
         public static Model solarEclipseBaseModel(Model model, String[] csv_row_cells) {
 
-                String owlNamespace = "http://www.w3.org/2002/07/owl#";
+                String owlTimeNamespace = "http://www.w3.org/2006/time#";
                 String xsdNamespace = "http://www.w3.org/2001/XMLSchema#";
 
                 Resource eclipse = model.createResource("http://webprotege.stanford.edu/eclipse");
@@ -106,16 +106,16 @@ public class SolarEclipse {
                 }
 
                 Literal yyyy = model.createTypedLiteral(new Integer(Integer.parseInt(splitDate[0])));
-                Property owlYear = model.createProperty(owlNamespace, "year");
+                Property owlYear = model.createProperty(owlTimeNamespace, "year");
                 catalogId.addLiteral(owlYear, yyyy);
 
                 int mon = MonthConverter.string2int(splitDate[1]);
                 Literal mm = model.createTypedLiteral(new Integer(mon));
-                Property owlMonth = model.createProperty(owlNamespace, "month");
+                Property owlMonth = model.createProperty(owlTimeNamespace, "month");
                 catalogId.addLiteral(owlMonth, mm);
 
                 Literal dd = model.createTypedLiteral(new Integer(Integer.parseInt(splitDate[2])));
-                Property owlDate = model.createProperty(owlNamespace, "day");
+                Property owlDate = model.createProperty(owlTimeNamespace, "day");
                 catalogId.addLiteral(owlDate, dd);
 
                 /*-----------------------------=------------- [3 Recorded Time] -----------------------------------------*/
@@ -143,7 +143,7 @@ public class SolarEclipse {
 
                 /*--------------------------------------------[6 Geolocation ] --------------------------------------------*/
 
-                Property hasLatitude = model.createProperty("http://webprotege.stanford.edu/hasLatitude");
+                Property hasLatitude = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
 
                 // temporary string value that holds edit lat and long value (removed N S and
                 // added negative positive)
@@ -166,7 +166,7 @@ public class SolarEclipse {
                 }
 
                 // longitude value now
-                Property hasLongitude = model.createProperty("http://webprotege.stanford.edu/hasLongitude");
+                Property hasLongitude = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
 
                 value = csv_row_cells[6];
 
@@ -188,7 +188,7 @@ public class SolarEclipse {
 
                 /*--------------------------------------------[Model Statements] ---------------------------------------*/
 
-                Property hasPoint = model.createProperty("http://www.opengis.net/gml", "Point");
+                Property hasPoint = model.createProperty("http://www.opengis.net/gml/Point");
 
                 model.add(catalogId, hasPoint, csv_row_cells[5] + " " + csv_row_cells[6]);
 

@@ -80,9 +80,7 @@ public class UFOSightings {
 
         public static Model UFOSightingsBaseModel(String[] csv_row_cells, Model model) {
 
-                String owlNamespace = "http://www.w3.org/2002/07/owl#";
-                // String georssNamespace = "http://www.georss.org/georss";
-                String timeNamespace = "http://www.w3.org/2006/time#";
+                String owlTimeNamespace = "http://www.w3.org/2006/time#";
 
                 Resource ufoSightingClass = model.createResource("http://webprotege.stanford.edu/ufoSighting");
 
@@ -126,15 +124,15 @@ public class UFOSightings {
                 ufoSighting.addLiteral(onDate, recDate);
 
                 // Resource year = model.createResource();
-                Property owlYr = model.createProperty(owlNamespace, "year");
+                Property owlYr = model.createProperty(owlTimeNamespace, "year");
                 ufoSighting.addLiteral(owlYr, yyyy);
 
                 // Resource month = model.createResource();
-                Property owlMonth = model.createProperty(owlNamespace, "month");
+                Property owlMonth = model.createProperty(owlTimeNamespace, "month");
                 ufoSighting.addLiteral(owlMonth, mm);
 
                 // Resource day = model.createResource();
-                Property owlDate = model.createProperty(owlNamespace, "day");
+                Property owlDate = model.createProperty(owlTimeNamespace, "day");
                 ufoSighting.addLiteral(owlDate, dd);
                 /*------------------------------------------- [City] -----------------------------------------*/
 
@@ -165,7 +163,7 @@ public class UFOSightings {
                 /*-------------------------------------------[duration] ----------------------------------------*/
 
                 Literal durationValue = model.createTypedLiteral(new Double(Double.parseDouble(csv_row_cells[5])));
-                Property timeDuration = model.createProperty(timeNamespace, "duration");
+                Property timeDuration = model.createProperty(owlTimeNamespace, "duration");
                 ufoSighting.addLiteral(timeDuration, durationValue);
 
                 /*--------------------------------------------[Geolocation ] ----------------------------------------*/
@@ -173,17 +171,17 @@ public class UFOSightings {
                 // // create latitude node and points it to the latitude literal value
 
                 Literal latValue = model.createTypedLiteral(new Double(Double.parseDouble(csv_row_cells[6])));
-                Property hasLatitude = model.createProperty("http://webprotege.stanford.edu/hasLatitude");
+                Property hasLatitude = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
                 ufoSighting.addLiteral(hasLatitude, latValue);
 
                 // create longitude node and points it to the longitude literal value
                 Literal longValue = model.createTypedLiteral(new Double(Double.parseDouble(csv_row_cells[7])));
-                Property hasLongitude = model.createProperty("http://webprotege.stanford.edu/hasLongitude");
+                Property hasLongitude = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
                 ufoSighting.addLiteral(hasLongitude, longValue);
 
                 /*--------------------------------------------[Model Statements] ----------------------------------------*/
 
-                Property hasPoint = model.createProperty("http://www.opengis.net/gml", "Point");
+                Property hasPoint = model.createProperty("http://www.opengis.net/gml/Point");
                 model.add(ufoSighting, hasPoint, csv_row_cells[6] + " " + csv_row_cells[7]);
                 ufoSighting.addProperty(RDF.type, ufoSightingClass);
                 return model;
