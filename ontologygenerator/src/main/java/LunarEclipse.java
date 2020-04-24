@@ -1,5 +1,6 @@
 import java.io.*;
 import java.nio.file.Paths;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 import org.apache.jena.rdf.model.*;
@@ -94,10 +95,6 @@ public class LunarEclipse {
 
                 /*------------------------------------------- [2 Calendar Date] -----------------------------------------*/
 
-                Literal recDate = model.createLiteral(csv_row_cells[1]);
-                Property onDate = model.createProperty("http://webprotege.stanford.edu/onDate");
-                catalogId.addLiteral(onDate, recDate);
-
                 String[] splitDate = csv_row_cells[1].split(" ");
 
                 if (splitDate.length == 1) {
@@ -105,18 +102,27 @@ public class LunarEclipse {
                         // System.out.println(splitDate[0]);
                 }
 
-                Literal yyyy = model.createTypedLiteral(new Integer(Integer.parseInt(splitDate[0])));
+                int year  =  new Integer(Integer.parseInt(splitDate[0]));
+                Literal yyyy = model.createTypedLiteral(year);
                 Property owlYear = model.createProperty(owlTimeNamespace, "year");
                 catalogId.addLiteral(owlYear, yyyy);
 
-                int mon = MonthConverter.string2int(splitDate[1]);
-                Literal mm = model.createTypedLiteral(new Integer(mon));
+                int month = MonthConverter.string2int(splitDate[1]);
+                Literal mm = model.createTypedLiteral(month);
                 Property owlMonth = model.createProperty(owlTimeNamespace, "month");
                 catalogId.addLiteral(owlMonth, mm);
 
-                Literal dd = model.createTypedLiteral(new Integer(Integer.parseInt(splitDate[2])));
+
+                int day = new Integer(Integer.parseInt(splitDate[2]));
+                Literal dd = model.createTypedLiteral(day);
                 Property owlDate = model.createProperty(owlTimeNamespace, "day");
                 catalogId.addLiteral(owlDate, dd);
+
+
+                GregorianCalendar calendar = new GregorianCalendar(year, month, day);
+                Literal recDate = model.createTypedLiteral(calendar);
+                Property onDate = model.createProperty(xsdNamespace, "date");
+                catalogId.addLiteral(onDate, recDate);
                 /*-----------------------------=------------- [3 Recorded Time] -----------------------------------------*/
 
                 Property dateTime = model.createProperty(xsdNamespace, "time");

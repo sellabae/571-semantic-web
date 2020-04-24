@@ -3,6 +3,7 @@ import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 import org.apache.jena.rdf.model.*;
@@ -82,6 +83,8 @@ public class UFOSightings {
 
                 String owlTimeNamespace = "http://www.w3.org/2006/time#";
 
+                String xsdNamespace = "http://www.w3.org/2001/XMLSchema#";
+
                 Resource ufoSightingClass = model.createResource("http://webprotege.stanford.edu/ufoSighting");
 
                 Resource ufoSighting = model.createResource();
@@ -104,23 +107,27 @@ public class UFOSightings {
                 Literal yyyy;
                 Literal mm;
                 Literal dd;
-                String dateString;
+                // String dateString;
+                GregorianCalendar date = new GregorianCalendar();
 
                 if (splitDate.length == 1) {
                         yyyy = model.createLiteral("");
                         mm = model.createLiteral("");
                         dd = model.createLiteral("");
-                        dateString = "yyyy/mm/dd";
+                        // dateString = "yyyy/mm/dd";
                 } else {
-                        yyyy = model.createTypedLiteral(new Integer(Integer.parseInt(splitDate[2])));
-                        mm = model.createTypedLiteral(new Integer(Integer.parseInt(splitDate[0])));
-                        dd = model.createTypedLiteral(new Integer(Integer.parseInt(splitDate[1])));
-                        dateString = splitDate[2] + "/" + splitDate[0] + "/" + splitDate[1];
+                        int year = new Integer(Integer.parseInt(splitDate[2]));
+                        int month = new Integer(Integer.parseInt(splitDate[0]));
+                        int day = new Integer(Integer.parseInt(splitDate[1]));
+                        yyyy = model.createTypedLiteral(year);
+                        mm = model.createTypedLiteral(month);
+                        dd = model.createTypedLiteral(day);
+                        date = new GregorianCalendar(year, month, day);
                 }
 
                 // Resource date = model.createResource();
-                Literal recDate = model.createLiteral(dateString);
-                Property onDate = model.createProperty("http://webprotege.stanford.edu/onDate");
+                Literal recDate = model.createTypedLiteral(date);
+                Property onDate = model.createProperty(xsdNamespace, "date");
                 ufoSighting.addLiteral(onDate, recDate);
 
                 // Resource year = model.createResource();

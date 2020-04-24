@@ -22,11 +22,11 @@ public class SparqlQueries {
 
         Model model = RDFDataMgr.loadModel(pathToOutput);
 
-        String prefixes = "PREFIX base: <http://webprotege.stanford.edu/> PREFIX owl:<http://www.w3.org/2002/07/owl#> ";
+        String prefixes = "PREFIX base: <http://webprotege.stanford.edu/> PREFIX owl-time:<http://www.w3.org/2006/time#> ";
 
         String select = "SELECT ?x ?catalogId ";
 
-        String patterns = "WHERE { ?x base:hasName \"A\" . ?x owl:month 5 . ?x base:hasCatalogId ?catalogId}";
+        String patterns = "WHERE { ?x owl-time:month 5 . ?x base:hasCatalogId ?catalogId }";
         // create a new query
         String queryString = prefixes + select + patterns;
 

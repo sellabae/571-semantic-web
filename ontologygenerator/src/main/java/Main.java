@@ -1,4 +1,4 @@
-
+//www.w3.org/2002/07/owl#
 import java.io.*;
 
 import org.apache.jena.rdf.model.*;

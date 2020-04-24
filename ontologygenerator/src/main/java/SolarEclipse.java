@@ -1,6 +1,9 @@
 import java.io.*;
 import java.nio.file.Paths;
+
 import java.util.Iterator;
+
+import java.util.GregorianCalendar;
 
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.reasoner.ValidityReport;
@@ -92,10 +95,6 @@ public class SolarEclipse {
 
                 /*------------------------------------------- [2 Calendar Date] -----------------------------------------*/
 
-                Literal recDate = model.createLiteral(csv_row_cells[1]);
-                Property onDate = model.createProperty("http://webprotege.stanford.edu/onDate");
-                catalogId.addLiteral(onDate, recDate);
-
                 String[] splitDate = csv_row_cells[1].split(" ");
 
                 // if format of date was saved differently -- instead of yyyy mm dd was saved as
@@ -105,18 +104,26 @@ public class SolarEclipse {
                         // System.out.println(splitDate[0]);
                 }
 
-                Literal yyyy = model.createTypedLiteral(new Integer(Integer.parseInt(splitDate[0])));
+                int year = new Integer(Integer.parseInt(splitDate[0]));
+                Literal yyyy = model.createTypedLiteral(year);
                 Property owlYear = model.createProperty(owlTimeNamespace, "year");
                 catalogId.addLiteral(owlYear, yyyy);
 
-                int mon = MonthConverter.string2int(splitDate[1]);
-                Literal mm = model.createTypedLiteral(new Integer(mon));
+                int month = MonthConverter.string2int(splitDate[1]);
+                Literal mm = model.createTypedLiteral(new Integer(month));
                 Property owlMonth = model.createProperty(owlTimeNamespace, "month");
                 catalogId.addLiteral(owlMonth, mm);
 
-                Literal dd = model.createTypedLiteral(new Integer(Integer.parseInt(splitDate[2])));
+                int day = new Integer(Integer.parseInt(splitDate[2]));
+                Literal dd = model.createTypedLiteral(day);
                 Property owlDate = model.createProperty(owlTimeNamespace, "day");
                 catalogId.addLiteral(owlDate, dd);
+
+
+                GregorianCalendar calendar = new GregorianCalendar(year, month, day);
+                Literal recDate = model.createTypedLiteral(calendar);
+                Property onDate = model.createProperty(xsdNamespace, "date");
+                catalogId.addLiteral(onDate, recDate);
 
                 /*-----------------------------=------------- [3 Recorded Time] -----------------------------------------*/
 

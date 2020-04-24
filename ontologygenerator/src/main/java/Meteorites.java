@@ -43,8 +43,8 @@ public class Meteorites {
                 csv_row = fileReader.readLine();
 
                 while (csv_row != null) {
-                        System.out.println(
-                                        "-----------------------------------------------------------------------------------------");
+                        // System.out.println(
+                        //                 "-----------------------------------------------------------------------------------------");
                         String[] csv_row_cells = csv_row.split(",");
 
                         int i = 0;
@@ -73,9 +73,9 @@ public class Meteorites {
                                 j += 1;
                         }
 
-                        for (int k = 0; k < edited_cells.length; k++) {
-                                System.out.println(edited_cells[k]);
-                        }
+                        // for (int k = 0; k < edited_cells.length; k++) {
+                        //         System.out.println(edited_cells[k]);
+                        // }
 
                         model = MeteoriteBaseModel(column_names, model, edited_cells);
 
