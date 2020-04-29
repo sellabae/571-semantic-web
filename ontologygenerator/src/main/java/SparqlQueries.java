@@ -18,15 +18,17 @@ public class SparqlQueries {
         String absolutePath = Paths.get(".").toAbsolutePath().normalize().toString();
         // String pathToOutput = absolutePath +
         // "\\ontologygenerator\\dataset\\SolarOutput.rdf";
-        String pathToOutput = absolutePath + "/ontologygenerator/rdf/SolarOutput.rdf";
+        String SolarRdf = absolutePath + "/ontologygenerator/rdf/SolarOutput.rdf";
+        String LunarRdf = absolutePath + "/ontologygenerator/rdf/lunarOutput.rdf";
 
-        Model model = RDFDataMgr.loadModel(pathToOutput);
+        Model model = RDFDataMgr.loadModel(SolarRdf);
+        
 
         String prefixes = "PREFIX base: <http://webprotege.stanford.edu/> PREFIX owl-time:<http://www.w3.org/2006/time#> ";
 
         String select = "SELECT ?x ?catalogId ";
 
-        String patterns = "WHERE { ?x owl-time:month 5 . ?x base:hasCatalogId ?catalogId }";
+        String patterns = "WHERE { ?x a base:solarEclipse}";
         // create a new query
         String queryString = prefixes + select + patterns;
 
@@ -41,6 +43,7 @@ public class SparqlQueries {
         ResultSetFormatter.out(System.out, results, query);
         // free up resources used in running the query
 
+        System.out.println(" IN SPARQL QUERIES ");
     }
 
 }

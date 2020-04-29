@@ -7,6 +7,8 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
+        System.out.println(" IN SPARQL QUERIES ");
+
         MonthConverter.initializeHashMap();
 
         Model solarModel = SolarEclipse.convertCsv2rdf();
