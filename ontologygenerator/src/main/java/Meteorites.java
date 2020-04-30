@@ -165,13 +165,13 @@ public class Meteorites {
                         meteorite.addLiteral(hasLongitude, longiValue);
 
                 }
+
+
                 /*--------------------------------------------[Model Statements] ---------------------------------------*/
 
                 Property hasPoint = model.createProperty("http://www.opengis.net/gml/Point");
 
                 model.add(meteorite, hasPoint, csv_row_cells[5] + " " + csv_row_cells[6]);
-
-                /*--------------------------------------------[Model Statements] ----------------------------------------*/
 
                 meteorite.addProperty(RDF.type, meteoriteResource);
                 return model;
