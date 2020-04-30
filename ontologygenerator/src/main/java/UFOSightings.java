@@ -81,6 +81,14 @@ public class UFOSightings {
 
         public static Model UFOSightingsBaseModel(String[] csv_row_cells, Model model) {
 
+                /*------------------------------------------- [ setting namespaces ] -----------------------------------------*/
+
+                model.setNsPrefix("prt", "http://webprotege.stanford.edu/");
+                model.setNsPrefix("time", "http://www.w3.org/2006/time#");
+                model.setNsPrefix("geo", "http://www.w3.org/2003/01/geo/wgs84_pos#");
+                model.setNsPrefix("xsd", "http://www.w3.org/2001/XMLSchema#");
+                model.setNsPrefix("ogc", "http://www.opengis.net/gml/");
+
                 String owlTimeNamespace = "http://www.w3.org/2006/time#";
 
                 String xsdNamespace = "http://www.w3.org/2001/XMLSchema#";

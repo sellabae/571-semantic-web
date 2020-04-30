@@ -80,6 +80,14 @@ public class SolarEclipse {
 
         public static Model solarEclipseBaseModel(Model model, String[] csv_row_cells) {
 
+                /*------------------------------------------- [ setting namespaces ] -----------------------------------------*/
+
+                model.setNsPrefix("prt", "http://webprotege.stanford.edu/");
+                model.setNsPrefix("time", "http://www.w3.org/2006/time#");
+                model.setNsPrefix("geo", "http://www.w3.org/2003/01/geo/wgs84_pos#");
+                model.setNsPrefix("xsd", "http://www.w3.org/2001/XMLSchema#");
+                model.setNsPrefix("ogc", "http://www.opengis.net/gml/");
+
                 String owlTimeNamespace = "http://www.w3.org/2006/time#";
                 String xsdNamespace = "http://www.w3.org/2001/XMLSchema#";
 
@@ -118,7 +126,6 @@ public class SolarEclipse {
                 Literal dd = model.createTypedLiteral(day);
                 Property owlDate = model.createProperty(owlTimeNamespace, "day");
                 catalogId.addLiteral(owlDate, dd);
-
 
                 GregorianCalendar calendar = new GregorianCalendar(year, month, day);
                 Literal recDate = model.createTypedLiteral(calendar);

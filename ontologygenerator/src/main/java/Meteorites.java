@@ -44,7 +44,7 @@ public class Meteorites {
 
                 while (csv_row != null) {
                         // System.out.println(
-                        //                 "-----------------------------------------------------------------------------------------");
+                        // "-----------------------------------------------------------------------------------------");
                         String[] csv_row_cells = csv_row.split(",");
 
                         int i = 0;
@@ -74,7 +74,7 @@ public class Meteorites {
                         }
 
                         // for (int k = 0; k < edited_cells.length; k++) {
-                        //         System.out.println(edited_cells[k]);
+                        // System.out.println(edited_cells[k]);
                         // }
 
                         model = MeteoriteBaseModel(column_names, model, edited_cells);
@@ -95,8 +95,15 @@ public class Meteorites {
 
         public static Model MeteoriteBaseModel(String[] column_names, Model model, String[] csv_row_cells) {
 
+                /*------------------------------------------- [ setting namespaces ] -----------------------------------------*/
+
+                model.setNsPrefix("prt", "http://webprotege.stanford.edu/");
+                model.setNsPrefix("time", "http://www.w3.org/2006/time#");
+                model.setNsPrefix("geo", "http://www.w3.org/2003/01/geo/wgs84_pos#");
+                model.setNsPrefix("xsd", "http://www.w3.org/2001/XMLSchema#");
+                model.setNsPrefix("ogc", "http://www.opengis.net/gml/");
+
                 String owlTimeNamespace = "http://www.w3.org/2006/time#";
-                String geo = "http://www.opengis.net/gml";
 
                 Resource meteoriteResource = model.createResource(
                                 "https://data.nasa.gov/Space-Science/Meteorite-Landings/gh4g-9sfh/data");
@@ -141,6 +148,8 @@ public class Meteorites {
                 meteorite.addLiteral(wasFoundOrFell, literalFell);
 
                 /*--------------------------------------------[Geolocation ] ----------------------------------------*/
+
+                model.setNsPrefix("geo", "http://www.w3.org/2003/01/geo/wgs84_pos#");
 
                 if (!csv_row_cells[5].equals("")) {
                         Literal latiValue = model.createTypedLiteral(new Double(Double.parseDouble(csv_row_cells[5])));
