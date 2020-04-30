@@ -145,13 +145,13 @@ public class Meteorites {
                 if (!csv_row_cells[5].equals("")) {
                         Literal latiValue = model.createTypedLiteral(new Double(Double.parseDouble(csv_row_cells[5])));
 
-                        Property hasLatitude = model.createProperty(geo, "lat");
+                        Property hasLatitude = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
 
                         meteorite.addLiteral(hasLatitude, latiValue);
 
                         Literal longiValue = model.createTypedLiteral(new Double(Double.parseDouble(csv_row_cells[6])));
 
-                        Property hasLongitude = model.createProperty(geo, "long");
+                        Property hasLongitude = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
 
                         meteorite.addLiteral(hasLongitude, longiValue);
 
