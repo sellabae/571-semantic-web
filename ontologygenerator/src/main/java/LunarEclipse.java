@@ -145,7 +145,7 @@ public class LunarEclipse {
                 catalogId.addLiteral(hasEclipseType, eclType);
 
                 catalogId.addProperty(RDF.type, eclipseLunarTypeClass);
-                eclipseLunarTypeClass.addProperty(RDF.type, eclipse);
+                eclipseLunarTypeClass.addProperty(RDFS.subClassOf, eclipse);
 
                 /*--------------------------------------------[5 Geolocation ] --------------------------------------------*/
                 Property hasLatitude = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");

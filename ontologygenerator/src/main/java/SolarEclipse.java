@@ -149,7 +149,7 @@ public class SolarEclipse {
                 catalogId.addLiteral(hasEclipseType, eclType);
 
                 catalogId.addProperty(RDF.type, eclipseSolarTypeClass);
-                eclipseSolarTypeClass.addProperty(RDF.type, eclipse);
+                eclipseSolarTypeClass.addProperty(RDFS.subClassOf, eclipse);
 
                 /*-------------------------------------------[5 Eclipse Magnitude] ----------------------------------------*/
 
