@@ -92,6 +92,8 @@ public class SolarEclipse {
                 String xsdNamespace = "http://www.w3.org/2001/XMLSchema#";
 
                 Resource eclipse = model.createResource("http://webprotege.stanford.edu/eclipse");
+                Resource skyEvent = model.createResource("http://webprotege.stanford.edu/skyEvent");
+
 
                 /*------------------------------------------- [ 1 Catalog Number] -----------------------------------------*/
 
@@ -205,6 +207,9 @@ public class SolarEclipse {
                 Property hasPoint = model.createProperty("http://www.opengis.net/gml/Point");
 
                 model.add(catalogId, hasPoint, csv_row_cells[5] + " " + csv_row_cells[6]);
+
+                eclipse.addProperty(RDFS.subClassOf, skyEvent);
+
 
                 return model;
         }

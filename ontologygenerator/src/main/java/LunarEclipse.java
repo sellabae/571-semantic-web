@@ -94,6 +94,7 @@ public class LunarEclipse {
 
                 // create a eclipse
                 Resource eclipse = model.createResource("http://webprotege.stanford.edu/eclipse");
+                Resource skyEvent = model.createResource("http://webprotege.stanford.edu/skyEvent");
 
                 /*------------------------------------------- [ 1 Catalog Number] -----------------------------------------*/
 
@@ -192,7 +193,7 @@ public class LunarEclipse {
 
                 Property hasPoint = model.createProperty("http://www.opengis.net/gml/Point");
                 model.add(catalogId, hasPoint, csv_row_cells[4] + " " + csv_row_cells[5]);
-
+                eclipse.addProperty(RDFS.subClassOf, skyEvent);
                 return model;
         }
 }

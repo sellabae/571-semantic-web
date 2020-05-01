@@ -1,5 +1,6 @@
 import java.io.*;
 import java.nio.file.Paths;
+import java.rmi.server.Skeleton;
 
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.vocabulary.*;
@@ -105,8 +106,11 @@ public class Meteorites {
 
                 String owlTimeNamespace = "http://www.w3.org/2006/time#";
 
-                Resource meteoriteResource = model.createResource(
-                                "https://data.nasa.gov/Space-Science/Meteorite-Landings/gh4g-9sfh/data");
+                Resource meteoriteResource = model.createResource("http://webprotege.stanford.edu/meteorite");
+                Resource skyEvent = model.createResource("http://webprotege.stanford.edu/skyEvent");
+
+                model.add(meteoriteResource, RDFS.subClassOf, skyEvent);
+
 
                 /*------------------------------------------- [Name] -----------------------------------------*/
 
@@ -173,7 +177,10 @@ public class Meteorites {
 
                 model.add(meteorite, hasPoint, csv_row_cells[5] + " " + csv_row_cells[6]);
 
+
                 meteorite.addProperty(RDF.type, meteoriteResource);
+
+
                 return model;
         }
 }

@@ -97,6 +97,8 @@ public class UFOSightings {
 
                 Resource ufoSighting = model.createResource();
 
+         
+
                 /*------------------------------------------- [Calendar] -----------------------------------------*/
 
                 try {
@@ -130,7 +132,7 @@ public class UFOSightings {
                         yyyy = model.createTypedLiteral(year);
                         mm = model.createTypedLiteral(month);
                         dd = model.createTypedLiteral(day);
-                        date = new GregorianCalendar(year, month, day);
+                        date = new GregorianCalendar(year, month-1, day);
                 }
 
                 // Resource date = model.createResource();
@@ -161,13 +163,13 @@ public class UFOSightings {
                 Property inState = model.createProperty("http://webprotege.stanford.edu/inState");
                 ufoSighting.addLiteral(inState, stateValue);
 
-                /*---------------------------------------------[country]-----------------------------------------*/
+                /*---------------------------------------------[ Country ]-----------------------------------------*/
 
                 Literal countryValue = model.createLiteral(csv_row_cells[3]);
                 Property inCountry = model.createProperty("http://webprotege.stanford.edu/inCountry");
                 ufoSighting.addLiteral(inCountry, countryValue);
 
-                /*-------------------------------------------[shape] ----------------------------------------*/
+                /*-------------------------------------------[ Shape ] ----------------------------------------*/
 
                 Literal shapeValue = model.createLiteral(csv_row_cells[4]);
                 Property isShape = model.createProperty("http://webprotege.stanford.edu/isShape");
@@ -175,7 +177,7 @@ public class UFOSightings {
 
                 // shape.addProperty(RDF.type, shapeClass);
 
-                /*-------------------------------------------[duration] ----------------------------------------*/
+                /*-------------------------------------------[ Duration ] ----------------------------------------*/
 
                 Literal durationValue = model.createTypedLiteral(new Double(Double.parseDouble(csv_row_cells[5])));
                 Property timeDuration = model.createProperty(owlTimeNamespace, "duration");
@@ -197,7 +199,7 @@ public class UFOSightings {
                 /*--------------------------------------------[ UFO Sightings ] ---------------------------------------*/
 
                 
-                Literal cmnt = model.createLiteral(csv_row_cells[10]);
+                Literal cmnt = model.createLiteral(csv_row_cells[9]);
                 Property comment = model.createProperty("http://webprotege.stanford.edu/comment");
 
                 ufoSighting.addLiteral(comment, cmnt);
