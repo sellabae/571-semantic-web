@@ -1,0 +1,28 @@
+#What Calendar months are there at least 2 eclipses
+
+PREFIX owl:<http://www.w3.org/2002/07/owl#>
+PREFIX time:<http://www.w3.org/2006/time#>
+PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+PREFIX nasa: <https://data.nasa.gov/Space-Science/Meteorite-Landings/gh4g-9sfh/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX solar: <http://example.org/solar>
+PREFIX lunar: <http://example.org/lunar>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX prt: <http://webprotege.stanford.edu/>
+SELECT ?month ?year ?eclipseCount
+WHERE {
+    {
+        # Count eclipses that happen in which month
+        SELECT  ?month ?year (count(?month) as ?eclipseCount)
+        WHERE{
+            ?eclipse rdf:type ?type.
+            ?type rdfs:subClassOf* prt:eclipse.
+      		?eclipse time:month ?month.
+  			?eclipse time:year ?year.
+        } GROUP BY ?month ?year HAVING(?eclipseCount > 2)       
+    }
+}
+
+
+

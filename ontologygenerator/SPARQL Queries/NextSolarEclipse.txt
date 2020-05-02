@@ -1,0 +1,21 @@
+PREFIX owl:<http://www.w3.org/2002/07/owl#>
+PREFIX time:<http://www.w3.org/2006/time#>
+PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prt: <http://webprotege.stanford.edu/>
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+PREFIX nasa: <https://data.nasa.gov/Space-Science/Meteorite-Landings/gh4g-9sfh/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX solar: <http://example.org/solar>
+PREFIX lunar: <http://example.org/lunar>
+# When was the next Solar Eclipse?
+SELECT  ?date
+WHERE{
+     {?solar a prt:solarEclipse;
+            xsd:date ?date;
+            FILTER(?date > "2020-05-01T10:20:13+05:30"^^xsd:dateTime)
+    }
+    
+} ORDER BY ASC(?date) LIMIT 1
+
+#ORDER BY ASC sorts by lowest to highest. Limit 1 gets the first item.
+

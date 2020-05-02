@@ -1,0 +1,23 @@
+#In the last 10 years, What meteorites were shooting stars?
+
+PREFIX owl:<http://www.w3.org/2002/07/owl#>
+PREFIX time:<http://www.w3.org/2006/time#>
+PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prt: <http://webprotege.stanford.edu/>
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+PREFIX nasa: <https://data.nasa.gov/Space-Science/Meteorite-Landings/gh4g-9sfh/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+# count foundOrFell category and group by its value
+SELECT ?fof (count(?fof) as ?metCount)
+WHERE 
+{
+    # which meteorites were foundOrFell in the last 10 years?
+   {
+        # get type of meteorite
+        ?meteor rdf:type ?type.
+		?type rdfs:subClassOf* prt:meteorite.
+#        ?meteor a prt:meteorite.
+        ?meteor prt:wasFoundOrFell ?fof.
+        ?meteor time:year ?year. 
+    }FILTER(?year > 2010)
+} GROUP BY ?fof HAVING(?fof = "Fell")
