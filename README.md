@@ -1,18 +1,19 @@
-# Semantic Data Project with UFO and Sky Events
-## Semantic Data Generation and Retrieval
-CECS571 Fundamentals of Semantic Web Technology
+# Semantic Data Project
+### Semantic Data Generation and Retrieval on UFO :alien: and Sky Events :stars: data  
+As part of CECS 571. Fundamentals of Semantic Web Technology
 
-## Semantic Data Retrieval
+## Project3. Semantic Data Retrieval
 
 ### How to Run Queries on UFO/SkyEvent semantic data
 #### 1. Get RDF files of our semantic data
 - Download and unzip [ufo-skyevent-rdf.zip](ufo-skyevent-rdf.zip)
 - 4 rdf files included: ufo, solar, lunar, and meteorite
 #### 2. Get GraphDB ready
-- Visit [Ontotext GraphDB](https://www.ontotext.com/products/graphdb/graphdb-free/) to request a downloadable copy of GraphDB
+- Install GraphDB  
+    Visit [Ontotext GraphDB](https://www.ontotext.com/products/graphdb/graphdb-free/) to request a downloadable copy of GraphDB
 - Follow their instructions to create a repository
-- Import the downloaded RDF files into GraphDB
-    - Import as "the default graph"
+- Import the downloaded RDF files into GraphDB  
+    Import as "the default graph"
 #### 3. Query
 - Get [our sparql queries](sparql_queries/ "directory with sparql queries")
 - Run a query from the query text files
