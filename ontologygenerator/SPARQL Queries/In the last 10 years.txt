@@ -1,4 +1,4 @@
-#In the last 10 years, what Meteorites were seen falling?
+#In the last 10 years, What meteorites were shooting stars?
 
 PREFIX owl:<http://www.w3.org/2002/07/owl#>
 PREFIX time:<http://www.w3.org/2006/time#>
@@ -16,7 +16,8 @@ WHERE
         # get type of meteorite
         ?meteor rdf:type ?type.
 		?type rdfs:subClassOf* prt:meteorite.
+#        ?meteor a prt:meteorite.
         ?meteor prt:wasFoundOrFell ?fof.
         ?meteor time:year ?year. 
     }FILTER(?year > 2010)
-} GROUP BY ?fof HAVING(?fof = "Fell") #Fall was observed
+} GROUP BY ?fof HAVING(?fof = "Fell")
