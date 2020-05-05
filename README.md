@@ -1,33 +1,33 @@
-# 571-semantic-web
+# Semantic Data Project with UFO and Sky Events
+## Semantic Data Generation and Retrieval
 CECS571 Fundamentals of Semantic Web Technology
 
-## Project 2. Semantic Data Generation
-Visit [data.gov](http://data.gov/) to select 2-3 datasets of interest and write a program to convert these datasets into semantic data in .rdf or .owl format. these chosen datasets should ideally help you answer interesting questions if combined (in a subsequent project 3)
-- Due: Mon. Mar 16, 2020 5pm
-- Requirement details: [Project2.pdf](docs/Project2.pdf)
+## Semantic Data Retrieval
 
-#### Consider the following questions when completing this project:
-- Have you chosen an appropriate domain that offers a sufficient platform allowing you to answer complex questions in the subsequent project?
-- If the semantic data you have generated is ran in Protégé, can the reasoner pick up any errors or inconsistency?
-- How many different kinds of relationships are modeled in your semantic data?
-- How complex is the semantic output overall?
-- Can someone not involved in the design or development of your project gain a basic understanding of the various aspects of the semantic output after your presentation?
+### How to Run Queries on UFO/SkyEvent semantic data
+#### 1. Get RDF files of our semantic data
+- Download and unzip [ufo-skyevent-rdf.zip](ufo-skyevent-rdf.zip)
+- 4 rdf files included: ufo, solar, lunar, and meteorite
+#### 2. Get GraphDB ready
+- Visit [Ontotext GraphDB](https://www.ontotext.com/products/graphdb/graphdb-free/) to request a downloadable copy of GraphDB
+- Follow their instructions to create a repository
+- Import the downloaded RDF files into GraphDB
+    - Import as "the default graph"
+#### 3. Query
+- Get [our sparql queries](sparql_queries/ "directory with sparql queries")
+- Run a query from the query text files
+![graphdb query screenshot](docs/assets/graphdb_query.png "Running a query in GraphDB")
 
-### Datasets we might use:
-- [UFO Sightings in US](https://www.kaggle.com/NUFORC/ufo-sightings#complete.csv)
-- [Crime and Incarceration in the United States](https://www.kaggle.com/christophercorrea/prisoners-and-crime-in-united-states#ucr_by_state.csv)
-- [Solar and Lunar Eclipses](https://www.kaggle.com/nasa/solar-eclipses) Date, time, and location of every eclipse in five thousand years
-- [Meteorite Landings](https://www.kaggle.com/nasa/meteorite-landings) by NASA. 45k meteorites
-- [Mass Shooting in US](https://www.kaggle.com/zusmani/us-mass-shootings-last-50-years#Mass%20Shootings%20Dataset%20Ver%203.csv) in last 50 years (320 cases)
-- [NASA Sky Event Calendar](https://eclipse.gsfc.nasa.gov/SKYCAL/SKYCAL.html) <- need to  manually generate event table...
-#### Chosen dataset:
-1. ?
-2. ?
-3. ?
 
-### Questions we can answer with chosen dataset:
-1. ?
-2. ?
-3. ?
+## Project2. Semantic Data Generation
+Converted `csv` files to `rdf` using [Jena API](https://jena.apache.org/).
 
-...
+- [Project2 requirements](docs/Project2.pdf)
+- Original data are from:
+    - [UFO Sightings in US](https://www.kaggle.com/NUFORC/ufo-sightings#complete.csv "Kaggle: UFO Sightings in US")
+    - [Solar and Lunar Eclipses](https://www.kaggle.com/nasa/solar-eclipses "Kaggle: Solar and Lunar Eclipses") Date, time, and location of every eclipse in five thousand years
+    - [Meteorite Landings](https://www.kaggle.com/nasa/meteorite-landings "Kaggle: Meteorite Landings") by NASA. 45k meteorites
+- [the 'ontology generator' java project](ontologygenerator/)
+- Converted rdf files are [here](ontologygenerator/rdf/ "directory with rdf files")
+- dataset venn diagram
+  ![dataset venn diagram](docs/assets/dataset-venn-diagram.jpeg)
