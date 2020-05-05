@@ -13,12 +13,12 @@ SELECT DISTINCT ?meteor ?metLat ?metLong
 WHERE{
     {
         #Find years that have recorded 3 UFO sightings
-        SELECT ?year(count(?year) as ?yearCount)
+        SELECT ?year(count(?year) as ?ufoCount)
         WHERE
         {
             ?ufo a prt:ufoSighting.
             ?ufo time:year ?year.  
-        } GROUP BY ?year HAVING(?yearCount = 3)
+        } GROUP BY ?year HAVING(?ufoCount = 3)
     }
     
     #Which ufo sightings were in that year and what were their locations?
